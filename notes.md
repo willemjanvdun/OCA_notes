@@ -1,4 +1,5 @@
 # Notes OCA
+feel free to add notes via a Pull Request
 
 ## Casting
 - A char value can ALWAYS be assigned to an int variable, since the int type is wider than the char type. So casting ```char c``` to ```int i``` is valid.
@@ -45,18 +46,18 @@ B b = new B();
 ```
 class B does implement I because it extends A, which implements I. A reference of type I can be cast to any class at compile time. Since B is-a A, it can be assigned to a.
 
-### Extended classes
+## Extended classes
 - The class that will be extended has some methods (with implementatin, which can be overriden) and even abstract methods (without a body) which define a method that the inheriting childclass should implement.
 
 
-### Interfaces
+## Interfaces
 - Contract : Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
 - Interface is group of related methods that should have been implemented by the class which claims that i’m provided common behavior of that interface
 - By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
 - In an interface, the method body is not defined, just the name and the parameters.
 - Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface. Therefore, you cannot assign any value to a variable from an interface outside the interface definition (overriding it is not possible).
 
-### Lambdas
+## Lambdas
 - java.util.function.Predicate is one of the several functional interfaces that have been added to Java 8. This interface has exactly one abstract method named test, which takes any object as input and returns a boolean. This comes in very handy when you have a collection of objects and you want to go through each object of that collection and see if that object satisfies some criteria. For example, you may have a collection of Employee objects and, in one place of your application, you want to remove all such employees whose age is below 50, while in other place, you want to remove all such employees whose salary is above 100,000. In both the cases, you want to go through your collection of employees, and check each Employee object to determine if it fits the criteria. This can be implemented by writing an interface named CheckEmployee and having a method check(Employee ) which would return true if the passed object satisfies the criteria. The following code fragments illustrate how it can be done - 
 - Whenever the method of a functional interface takes more than one parameter, you need to put the arguments within brackets.
 - If the method of a functional interface takes one parameter, you can omit the brackets. For example, ```x -> expression``` and ```(x) -> expression are equivalent```.  If the method of a functional interface takes no parameter, you must write empty brackets. For example, ```( ) -> expression```
@@ -84,7 +85,7 @@ Predicate<Employee> p = new Predicate<Employee>(){   
 - The following is ok as well when the method returns a void (but ugly IMHO)
 ```() -> { System.out.println("running..."); return; }```
 
-### Overriding
+## Overriding
 - When the return type of the overridden method (i.e. the method in the base/super class) is a primitive, the return type of the overriding method (i.e. the method in the sub class) must match the return type of the overridden method.
 - Trying to override a static method with a non-static method (and vice-versa) in a class will result in a compilation error.
 - When extending a class, keep in mind that overridden methods must have the same return type as the overridden method
@@ -114,7 +115,7 @@ class Automobile{
 }
 ```
 
-# Loops
+## Loops
 - The break statement immediately jumps to the end (and out) of the appropriate compound statement.
 - The continue statement immediately jumps to the next iteration (if any) of the appropriate loop.
 ```
@@ -153,7 +154,7 @@ public class PrePostIncrement {
 }
 ```
 
-### Java Data types
+## Java Data types
 ```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
 Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
 
@@ -181,10 +182,10 @@ Observe that they dont create a new Boolean object but just return the static co
 If both are Boolean wrappers, then their references are compared just like in the case of other objects. ```Thus, new Boolean("true") == new Boolean("true")``` is false, but ```new Boolean("true") == Boolean.parseBoolean("true")``` is true.
 -The equals methods of all wrapper classes first check if the two object are of same class or not.
 
-### Constructor
+## Constructor
 - Let erop dat je een vaak wel een no-args constructor nodig hebt
 
-### Assignment
+## Assignment
 ```boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
 int expr1 = 3 + 5 * 9 - 7;  //41       
 int expr2 = 3 + (5 * 9) - 7;  //41       
@@ -193,7 +194,7 @@ int expr4 = (3 + 5) * 9 - 7;  //65
 System.out.println(100/9.9); //Since one of the operands (9.9) is a double, it wil perform a real division and will print 10.1010101010101
 ```
 
-### Switches
+## Switches
 Here are the rules for a switch statement:
 1. Only String, byte, char, short, int, (and their wrapper classes Byte, Character, Short, and Integer), and enums can be used as types of a switch variable. (String is allowed only since Java 7). 
 2. The case constants must be assignable to the switch variable. For example, if your switch variable is of class String, your case labels must use Strings as well.
@@ -204,7 +205,7 @@ Here are the rules for a switch statement:
 7. The type of the case labels must be consistent with the type of the switch condition
 
 
-### Exceptions
+## Exceptions
 - Exceptions are always some subclass of java.lang.Exception
 - Catch blocks are not required
 - An exception that is never caught will cause your application to stop
@@ -225,19 +226,19 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 - A method that throws a 'checked' exception i.e. an exception that is not a subclass of Error or RuntimeException, either must declare it in throws clause or put the code that throws the exception in a try/catch block.
 - Once the exception is caught the rest of the catch blocks at the same level (that is the ones associated with the same try block) are ignored
 
-### Java Basics
+## Java Basics
 - Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. 
 "State", on the other hand, is represented by instance fields. Only a class can have instance fields and therefore, only a class can have a state. (Fields defined in an interface are always implicitly static, even if you don't specify the keyword static explicitly. Therefore, an interface does not have any state.)
 
-### Imports
+## Imports
 - Bad syntax. A package statement can never have a *
 
-### Garbage collection
+## Garbage collection
 
 - If an objects get returned in a method it will never be a candidate for Garbage collection within this method.
 
 
-### Instanceof
+## Instanceof
 - D extends C, which extends B, which extends A. This means, D is-a C, C is-a B, and B is-a A. Therefore, D is-a A. Hence, d instanceof A will return true.
 - The expression (o instanceof B) will return true if the object referred to by o is of type B or a subtype of B. (subtype == extending B of some class that extends B or a class that extends a class that extends a class that extends B ;))
 ```
@@ -249,7 +250,7 @@ System.out.println(d instanceof Animal) //True
 Now, d instanceof Animal will be true because even though d is actually an instance of Dog, since Dog is a subclass of Animal, Dog IS-A Animal.
 - Since A implements both T1 and T2, 1 and 2 are correct. (a instanceof T1 will be true)
 
-### Java API
+## Java API
 ```
 System.out.println(LocalDate.of(2015, Month.JANUARY, 01).format(DateTimeFormatter.ISO_DATE_TIME));  // comp. error (no time-component)
 final public static void main(String [ ] array)   // works
@@ -259,24 +260,24 @@ public static long main(String[] args){ // this will give an error at Runtime, n
 ```
 
 
-### Arrays
+## Arrays
 - The statement ```int[ ][4]``` will not compile, because the dimensions must be created from left to right.
 - Arrays cannot grow in size once created. ArrayLists can do that.
 - In an array access, the expression to the left of the brackets appears to be fully evaluated before any part of the expression within the brackets is evaluated.
 - Arrays are proper objects (i.e. iArr instanceof Object returns true) and Object references are passed by value (so effectively, it seems as though objects are being passed by reference). So the value of reference of iArr is passed to the method incr(int[] i); This method changes the actual value of the int element at 0.
 
-### Stringbuilder
+## Stringbuilder
   ```
     String s = "blooper";     
     StringBuilder sb = new StringBuilder(s);     
     sb.append(s.substring(4)).delete(3, 5);     
     System.out.println(sb); Result >> Bloerper
 ```
-### Operators
+## Operators
 - Multiplication has more precedence than addition. 
 - we have a simple for loop whe have a incrementer. This will only be 'exececuted' when the condition in the for loop is true. //TODO UITZOEKEN OF DAT ECHT ZO IS>..
 
-### Some random examples of cruelty
+## Some random examples of cruelty
 Keep in mind to always check the number of answer that should be provided.... ;)
 
 - LocalDate ld2 = ld.plus(Period.of(0, 1, 1));
@@ -290,7 +291,7 @@ Keep in mind to always check the number of answer that should be provided.... ;)
 
 *add some more examples: http://www.programmergirl.com/oca-java-8-preparation-java-basics/ ?
 
-### Some youtube comments ;)
+## Some youtube comments ;)
 - You want to have general understanding about JVM, and what it is, your knowledge of classes, inheritance and interfaces has to be top notch
    - For example, if you have a method in a class that is abstract but your class is not abstract, guess what compiler error! Even if you know this it is easy to miss on the exam.
 - They like to put tricks with strings like he said, like string.'methodname(arg0) you MUST assign it back to have it actually mean something
