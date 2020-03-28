@@ -257,6 +257,14 @@ public static void main(String args[ ]) // works
 static void main(String args[ ]) // does not work since it is missing the required public
 public static long main(String[] args){ // this will give an error at Runtime, not compile time..
 ```
+
+
+### Arrays
+- The statement ```int[ ][4]``` will not compile, because the dimensions must be created from left to right.
+- Arrays cannot grow in size once created. ArrayLists can do that.
+- In an array access, the expression to the left of the brackets appears to be fully evaluated before any part of the expression within the brackets is evaluated.
+- Arrays are proper objects (i.e. iArr instanceof Object returns true) and Object references are passed by value (so effectively, it seems as though objects are being passed by reference). So the value of reference of iArr is passed to the method incr(int[] i); This method changes the actual value of the int element at 0.
+
 ### Stringbuilder
   ```
     String s = "blooper";     
@@ -288,7 +296,6 @@ Keep in mind to always check the number of answer that should be provided.... ;)
 - They like to put tricks with strings like he said, like string.'methodname(arg0) you MUST assign it back to have it actually mean something
 - Another trick with date classes, LocalDate date = LocalDate.now(), your variable must be created statically, LocalDate date = new LocalDate() DOES NOT COMPILE!
 - Touch on period also, Period p = Period.ofWeek(1).ofDays(1) this will mean a period of 1 day not 8 days... only the last one counts
-
 - Make sure code compiles, they love to stump you with something simple like putting String as string in lower case which does not compile.
 - Autoboxing, know the valueOf and parseInt methods, and their return type for Integer wrapper class, parseInt returns primitive, whereas valueOf returns wrapper
 - Know the Arrays.sort(array) for the binary search, there will be 1 or 2 questions about that
