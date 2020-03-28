@@ -153,7 +153,6 @@ public class PrePostIncrement {
 }
 ```
 
-
 ### Java Data types
 ```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
 Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
@@ -186,7 +185,7 @@ If both are Boolean wrappers, then their references are compared just like in th
 - Let erop dat je een vaak wel een no-args constructor nodig hebt
 
 ### Assignment
- ```boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
+```boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
 int expr1 = 3 + 5 * 9 - 7;  //41       
 int expr2 = 3 + (5 * 9) - 7;  //41       
 int expr3 = 3 + 5 * (9 - 7);  13         
@@ -219,7 +218,7 @@ Game.play throws exception > Game g = new Soccer g.play >>>>> this needs to call
 - When you use System.out.println(exception), a stack trace is not printed. Just the name of the exception class and the message is printed. 
 When you use exception.printStackTrace(), a complete chain of the names of the methods called, along with the line numbers, is printed.
 - Overriding method only needs to specify a subset of the list of exception classes the overridden method can throw. A set of no classes is a valid subset of that list.
-  a[thisWillThrowAnException()][i = 1]++; < If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated. [i = 1 will not be executed]
+  ```a[thisWillThrowAnException()][i = 1]++;``` < If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated. [i = 1 will not be executed]
 - throw new NullPointerException(); < This is possible (although it looks strange..)
 - java.lang.SecurityException is a standard Exception (who knew..)
 - If there is no catch block, the exception will not be handled and the invoking method will throw the exception to the caller.
@@ -236,6 +235,19 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 ### Garbage collection
 
 - If an objects get returned in a method it will never be a candidate for Garbage collection within this method.
+
+
+### Instanceof
+- D extends C, which extends B, which extends A. This means, D is-a C, C is-a B, and B is-a A. Therefore, D is-a A. Hence, d instanceof A will return true.
+- The expression (o instanceof B) will return true if the object referred to by o is of type B or a subtype of B. (subtype == extending B of some class that extends B or a class that extends a class that extends a class that extends B ;))
+```
+class Animal {}   
+class Dog extends Animal { }   
+Dog d = new Dog();
+System.out.println(d instanceof Animal) //True
+```
+Now, d instanceof Animal will be true because even though d is actually an instance of Dog, since Dog is a subclass of Animal, Dog IS-A Animal.
+- Since A implements both T1 and T2, 1 and 2 are correct. (a instanceof T1 will be true)
 
 ### Java API
 ```
@@ -267,6 +279,8 @@ Keep in mind to always check the number of answer that should be provided.... ;)
 - There no unsigned keyword in java! A char can be used as an unsigned integer. < well hidden in a question
 - ```float f = 0x0123;``` is valid because god knows why (implicit narrowing..)
 - Variables can't be declared as abstract or native.
+
+*add some more examples: http://www.programmergirl.com/oca-java-8-preparation-java-basics/ ?
 
 ### Some youtube comments ;)
 - You want to have general understanding about JVM, and what it is, your knowledge of classes, inheritance and interfaces has to be top notch
