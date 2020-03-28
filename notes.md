@@ -273,6 +273,7 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 
 
 ## Instanceof
+- The left operand of instanceof MUST be a reference variable and not a primitive.
 - D extends C, which extends B, which extends A. This means, D is-a C, C is-a B, and B is-a A. Therefore, D is-a A. Hence, d instanceof A will return true.
 - The expression (o instanceof B) will return true if the object referred to by o is of type B or a subtype of B. (subtype == extending B of some class that extends B or a class that extends a class that extends a class that extends B ;))
 ```
@@ -283,6 +284,24 @@ System.out.println(d instanceof Animal) //True
 ```
 Now, d instanceof Animal will be true because even though d is actually an instance of Dog, since Dog is a subclass of Animal, Dog IS-A Animal.
 - Since A implements both T1 and T2, 1 and 2 are correct. (a instanceof T1 will be true)
+- ```(s instanceof java.util.Date) ``` will not compile.... so the instanceof-operator checks if a check is useful/possible.
+- ```b points to an object of class Bat, which does not extend from Bird```. Now, it is possible for b to point to an object of any subclass of Bat. However, it is not possible for that sub class to extend Bird (because a class can at most extend from only one class). ```Therefore, it is not possible for b to point to an object of a class that "is a" Bird.``` The compiler figures out this fact at compile time itself and so the code fails to compile.
+
+```interface Flyer{ }
+class Bird implements Flyer { }
+class Eagle extends Bird { }
+class Bat { }
+
+public class TestClass {
+    
+    public static void main(String[] args) {
+        Flyer f = new Eagle();
+        Eagle e = new Eagle();
+        Bat b = new Bat();
+
+// At run time, f points to an object of class Eagle. Now, Eagle extends Bird so f instanceof Bird returns true. e points to an object of class Eagle. Eagle extends Bird, which in turn implements Flyer. So an Eagle is a Flyer. Therefore, e instanceof Flyer will also return true.  b points to an object of class Bat, which does not extend from Bird. Therefore, b instanceof Flyer returns false.        
+```
+
 
 ## Java API
 
