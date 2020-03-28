@@ -1,5 +1,5 @@
 # Notes OCA
-feel free to add notes via a Pull Request
+Some notes I made when preparing for the 1Z0‑808 (OCA8 Exam).Feel free to edit this file by creating a Pull Request.
 
 ## Java Basics
 - Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. 
@@ -13,6 +13,8 @@ feel free to add notes via a Pull Request
 - You cannot access a private member of a superclass
 - If you declare a field to be final, it must be explicitly initialized by the time the creation of an object of the class is complete. So you can either initialize it immediately. You can't change its value once it is set.
 - Protected is not a valid way to encapsulate a field because any class in a package can access the field.
+- If evaluation of the left-hand operand of a binary operator completes abruptly, no part of the right-hand operand appears to have been evaluated.
+- private->'no modifier'->protected->public (no modifier is default and means the method will be accessible only to all the classes in the same package. (i.e. not even to the subclass if the subclass is in a different package.))
 
 ## Casting
 - A char value can ALWAYS be assigned to an int variable, since the int type is wider than the char type. So casting ```char c``` to ```int i``` is valid.
@@ -30,21 +32,19 @@ byte myByte = (byte) myInt;
 - A class can be extended unless it is declared final. 
 - Some notes about abstract
     - A class is uninstantiable if the class is declared abstract. If a method has been declared as abstract, it cannot provide an implementation (i.e. it cannot have a method body ) and the class containing that method must be declared abstract). 
-    - If a method is not declared abstract, it must provide a method body (the class can be abstract but not necessarily so).
     - If any method in a class is declared abstract, then the whole class must be declared abstract. 
     - An class can still be made abstract even if it has no abstract method.
-    - An abstract method cannot have a body.
-- Return times must be the same when overriding an method (same name && same parameter == same return type)
+- Return types must be the same when overriding an method (same name && same parameter == same return type)
 ! You can assign a subclass object reference to superclass reference without a cast but to assign a super class object reference to a subclass (or interface) reference you need an explicit cast.
-- All interface methods have to be public.
-- An interface can have a static method but the method must have a body in that case.
+> ``` Bear Extends Animal```. Bear is-a Animal. So it can be assigned to Animal animal.  The other way around: ``` Bear b = (B)animal ```. A animal is not necessarily a bear so it needs casting
 - Which to use:
--   Which variable (or static method) will be used depends on the class that the variable is declared of.
--   Which instance method will be used depends on the actual class of the object that is referenced by the variable.
-- The rule is that an overriding method cannot throw an exception that is a super class of the exception thrown by the overridden method.\
+   - Which variable (or static method) will be used depends on the class that the variable is declared of.
+   - Which instance method will be used depends on the actual class of the object that is referenced by the variable.
+- The rule is that an overriding method cannot throw an exception that is a super class of the exception thrown by the overridden method (which meens the exception thown in the the method that is overriding must be the same or narrower. Throwing less exceptions is also possible (eg. leaving them out of the method signature)).
+- The class that will be extended has some methods (with implementation, which can be overriden) and even abstract methods (without a body) which define a method that the inheriting childclass should implement.
+- Having ambiguous fields does not cause any problems but referring to such fields in an ambiguous way will cause a compile time error.
 
-
-Example: 
+- The concept here is that an overriding method cannot make the overridden method more private.
 ```
 interface I{
 }
@@ -58,17 +58,18 @@ And the following declarations:
 A a = new A();
 B b = new B();
 ```
-class B does implement I because it extends A, which implements I. A reference of type I can be cast to any class at compile time. Since B is-a A, it can be assigned to a.
-
-## Extended classes
-- The class that will be extended has some methods (with implementatin, which can be overriden) and even abstract methods (without a body) which define a method that the inheriting childclass should implement.
+Class B does implement I because it extends A, which implements I. A reference of type I can be cast to any class at compile time. Since B is-a A, it can be assigned to a.
 
 ## Interfaces
+- Interfaces are implemented ```public class SomeWrestler implements IWrestler ```
 - Contract : Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
 - Interface is group of related methods that should have been implemented by the class which claims that i’m provided common behavior of that interface
 - By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
 - In an interface, the method body is not defined, just the name and the parameters.
-- Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface. Therefore, you cannot assign any value to a variable from an interface outside the interface definition (overriding it is not possible).
+- Multiple interfaces can be implemented (generally, inherited) at a time.
+- All interface methods have to be public.
+- An interface can have a static method but the method must have a body in that case.
+- Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface. ```Therefore, you cannot assign any value to a variable from an interface outside the interface definition (overriding it is not possible).```
 
 ## Lambdas
 - java.util.function.Predicate is one of the several functional interfaces that have been added to Java 8. This interface has exactly one abstract method named test, which takes any object as input and returns a boolean. This comes in very handy when you have a collection of objects and you want to go through each object of that collection and see if that object satisfies some criteria. For example, you may have a collection of Employee objects and, in one place of your application, you want to remove all such employees whose age is below 50, while in other place, you want to remove all such employees whose salary is above 100,000. In both the cases, you want to go through your collection of employees, and check each Employee object to determine if it fits the criteria. This can be implemented by writing an interface named CheckEmployee and having a method check(Employee ) which would return true if the passed object satisfies the criteria. The following code fragments illustrate how it can be done - 
@@ -131,15 +132,38 @@ class Automobile{
 ## Loops
 - The break statement immediately jumps to the end (and out) of the appropriate compound statement.
 - The continue statement immediately jumps to the next iteration (if any) of the appropriate loop.
+- ```while (false) { x=3; }``` is a compile-time error because the statement x=3; is not reachable;
+= ```if(false){ x=3; }``` this is not a compile-time error because some exception to this rule.
+
+``` 
+// The increment operator(s) in a for-loop will run after running the code block that is executed!!! 
+for (int i = 0; i < 2; i++) {
+    System.out.println("i: " + 1) // this will be 0! remember! 
+}
 ```
-for (int i=5; i=0; i--) { }; //Wrong
-int j=5; for(int i=0, j+=5;  i<j ; i++) {  j--;  }; //Wrong
-int i, j; for (j=10; i<j; j--) { i += 2; }; //Wrong
-int i=10; for ( ; i>0 ; i--) { }; //Good
+
+```
+for (i=0 ;       ; i++) // Good
+for (int i=5; i=0; i--) { }; // Wrong
+int j=5; for(int i=0, j+=5;  i<j ; i++) {  j--;  }; // Wrong
+int i, j; for (j=10; i<j; j--) { i += 2; }; // Wrong
+int i=10; for ( ; i>0 ; i--) { }; // Good
 for (int i=0, j=10; i<j; i++, --j) {;}; // Good
 ```
-- A nice example of pre-post-increments
+```
+// In no situation can the control go beyond this statement in the for loop. Therefore,  rest of the statements in the for loop are unreachable and so the code will not compile.
+
+if(index == 3){                 
+        break;             
+    } else {                  
+        continue;             
+    }
 ``` 
+
+
+
+```
+//Example of pre- and post increments 
 public class PrePostIncrement {
     public static void main(String[] args) {
          thisWillRunOnce();
@@ -173,7 +197,7 @@ Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 referenc
 
 ```
 Integer i = new Integer(42); Long ln = new Long(42); Double d = new Double(42.0);
-i == ln; will fail at compile time since the can never be == since the refer to different data types.
+i == ln; //will fail at compile time since the can never be == since the refer to different data types.
 // .equals will compile without problems.
 ``` 
 
@@ -196,7 +220,8 @@ If both are Boolean wrappers, then their references are compared just like in th
 -The equals methods of all wrapper classes first check if the two object are of same class or not.
 
 ## Assignment
-```boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
+```
+boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
 int expr1 = 3 + 5 * 9 - 7;  //41       
 int expr2 = 3 + (5 * 9) - 7;  //41       
 int expr3 = 3 + 5 * (9 - 7);  13         
@@ -206,7 +231,7 @@ System.out.println(100/9.9); //Since one of the operands (9.9) is a double, it w
 
 ## Switches
 Here are the rules for a switch statement:
-1. Only String, byte, char, short, int, (and their wrapper classes Byte, Character, Short, and Integer), and enums can be used as types of a switch variable. (String is allowed only since Java 7). 
+1. Only ```String```, ```byte```, ```char```, ```short```, ```int```, (and their wrapper classes ```Byte```, ```Character```, ```Short```, and ```Integer```), and ```enums``` can be used as types of a switch variable. (String is allowed only since Java 7). 
 2. The case constants must be assignable to the switch variable. For example, if your switch variable is of class String, your case labels must use Strings as well.
 3. The switch variable must be big enough to hold all the case constants. For example, if the switch variable is of type char, then none of the case constants can be greater than 65535 because a char's range is from 0 to 65535.
 4. All case labels should be COMPILE TIME CONSTANTS.
@@ -217,18 +242,21 @@ Here are the rules for a switch statement:
 
 ## Exceptions
 - Exceptions are always some subclass of java.lang.Exception
-- Catch blocks are not required
+- Catch blocks are **not required**
 - An exception that is never caught will cause your application to stop
 - Throwable > Exception && Error
-- The most specific catch-clause must be at the top, otherwise it will be unreachable code (since a broader Exception will trigger)
+- The most specific catch-clause must be at the top, otherwise it will be unreachable code (since a broader Exception will trigger) and thus will not compile.
 - The exceptions that a method can throw must be declared > void myFunction() throws MyException, MyException2 { //method body} A method that 'receives' an Exception must either catch in or rethrow it (and it this case declare in in the method signature)
 - Finally statements are ALWAYS executed, whether an exception was thrown or not (after the return statement, before the return executes)
-- You do not need to declare catch-clauses for RuntimeExceptions (or method signatures)
+- You do not need to declare catch-clauses for RuntimeExceptions like ArrayIndexOutOfBounds(or method signatures)
 - When a extended class has a method with a throws Exception the method/class that uses this method should also have this exception-signature. (in for example the main method) 
-Game.play throws exception > Game g = new Soccer g.play >>>>> this needs to called in a method that has the same exception-signature
+Game.play throws exception > Game g = new Soccer g.play >>>>> this needs to be called in a method that has the same exception-signature
 - When you use System.out.println(exception), a stack trace is not printed. Just the name of the exception class and the message is printed. 
 When you use exception.printStackTrace(), a complete chain of the names of the methods called, along with the line numbers, is printed.
 - Overriding method only needs to specify a subset of the list of exception classes the overridden method can throw. A set of no classes is a valid subset of that list.
+- If an exception is not handled(catched or declared) it will print the stack trace to the console.
+- The main(String[] args) method is the last point in your program where any unhandled checked exception can bubble up to. After that the exception is thrown to the JVM and the JVM kills the thread.
+
   ```a[thisWillThrowAnException()][i = 1]++;``` < If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated. [i = 1 will not be executed]
 - throw new NullPointerException(); < This is possible (although it looks strange..)
 - java.lang.SecurityException is a standard Exception (who knew..)
@@ -257,14 +285,12 @@ Now, d instanceof Animal will be true because even though d is actually an insta
 - Since A implements both T1 and T2, 1 and 2 are correct. (a instanceof T1 will be true)
 
 ## Java API
-```
-System.out.println(LocalDate.of(2015, Month.JANUARY, 01).format(DateTimeFormatter.ISO_DATE_TIME));  // comp. error (no time-component)
-final public static void main(String [ ] array)   // works
-public static void main(String args[ ]) // works
-static void main(String args[ ]) // does not work since it is missing the required public
-public static long main(String[] args){ // this will give an error at Runtime, not compile time..
-```
 
+```System.out.println(LocalDate.of(2015, Month.JANUARY, 01).format(DateTimeFormatter.ISO_DATE_TIME));```  // comp. error (no time-component)
+```final public static void main(String [ ] array)```   // works
+```public static void main(String args[ ]) // works```
+```static void main(String args[ ])``` // does not work since it is missing the required public
+```public static long main(String[] args){``` // this will give an error at Runtime, not compile time..
 
 ## Arrays
 - The statement ```int[ ][4]``` will not compile, because the dimensions must be created from left to right.
@@ -273,7 +299,7 @@ public static long main(String[] args){ // this will give an error at Runtime, n
 - Arrays are proper objects (i.e. iArr instanceof Object returns true) and Object references are passed by value (so effectively, it seems as though objects are being passed by reference). So the value of reference of iArr is passed to the method incr(int[] i); This method changes the actual value of the int element at 0.
 
 ## Stringbuilder
-  ```
+```
     String s = "blooper";     
     StringBuilder sb = new StringBuilder(s);     
     sb.append(s.substring(4)).delete(3, 5);     
@@ -283,12 +309,12 @@ public static long main(String[] args){ // this will give an error at Runtime, n
 - Multiplication has more precedence than addition. 
 - we have a simple for loop whe have a incrementer. This will only be 'exececuted' when the condition in the for loop is true. //TODO UITZOEKEN OF DAT ECHT ZO IS>..
 
-## Some random examples of cruelty
+## Some random examples of cruelty :angry:
 Keep in mind to always check the number of answer that should be provided.... ;)
 
 - A class can have a method named Main. Although, since it is not same as main, it will not be considered the standard main method that the JVM can invoke when the program is executed.
-- LocalDate ld2 = ld.plus(Period.of(0, 1, 1));
-- final public static void main(String [ ] array)
+- ```LocalDate ld2 = ld.plus(Period.of(0, 1, 1));```
+- ```final public static void main(String [ ] array)```
 - When you see something about packages remember the following: Note that there is no modifier for A's constructor. So it has default access. (default == package only). This will most likely be an compile error
 - It will throw a java.lang.OutOfMemoryError. Note that this is not a subclass of RuntimeException or even Exception. It is a subclass of java.lang.Error. (so no exception is caught)
 - Note that local (aka automatic) variables, such as the variables d and e in the code given here, are not initialized automatically. They have to be initialized explicitly. However, it is ok to leave them uninitialized if you don't use them anywhere in the code (as is the case with the variable d). 
@@ -298,29 +324,29 @@ Keep in mind to always check the number of answer that should be provided.... ;)
 
 *add some more examples: http://www.programmergirl.com/oca-java-8-preparation-java-basics/ ?
 
-## Some youtube comments ;)
+## Some notes I found as Youtube-comments ;)
 - You want to have general understanding about JVM, and what it is, your knowledge of classes, inheritance and interfaces has to be top notch
    - For example, if you have a method in a class that is abstract but your class is not abstract, guess what compiler error! Even if you know this it is easy to miss on the exam.
 - They like to put tricks with strings like he said, like string.'methodname(arg0) you MUST assign it back to have it actually mean something
-- Another trick with date classes, LocalDate date = LocalDate.now(), your variable must be created statically, LocalDate date = new LocalDate() DOES NOT COMPILE!
+- Another trick with date classes, ```LocalDate date = LocalDate.now()```, your variable must be created statically, ```LocalDate date = new LocalDate()``` DOES NOT COMPILE!
 - Touch on period also, Period p = Period.ofWeek(1).ofDays(1) this will mean a period of 1 day not 8 days... only the last one counts
 - Make sure code compiles, they love to stump you with something simple like putting String as string in lower case which does not compile.
 - Autoboxing, know the valueOf and parseInt methods, and their return type for Integer wrapper class, parseInt returns primitive, whereas valueOf returns wrapper
-- Know the Arrays.sort(array) for the binary search, there will be 1 or 2 questions about that
+- Know the ```Arrays.sort(array)``` for the binary search, there will be 1 or 2 questions about that
 - ArrayList knowledge must be top notch
 - Know the hierarcy of exceptions, The top level is throwable, Error and Exception inherit from throwable, Error should not be caught, Exception is checked, Runtime exception which inherits from Exception is unchecked. 
 - Know try catch, and scope, order matters for catch statements. They also like to confuse you by questions where they may imply that finally is required in a try block but only 0 or more catch blocks and /or at most 1 finally block is allowed, You need either atleast one catch block defined or a finally available. If they do something like System.exit(0) in catch block then finally is NOT executed. Also know that ClassCastException is a runtime error, this is when you try to cast your class to another type that is not related to your class, Example, you can cast an Integer to Number, but casting integer to String is going to throw this exception.
 - Get a good grip on ternary operator.
-- Get a good grip on increment and decrement. for example if int i = 1, if i do i = i++; i will end up being set as 1. this is another trick. i++ on the other hand will change i to 2.
+- Get a good grip on increment and decrement. for example ```if int i = 1, if i do i = i++;``` i will end up being set as 1. this is another trick. i++ on the other hand will change i to 2.
 - you want to have a good handle on loops as well. They LOVE to put loops without curly brackets just to confuse you, it's really annoying and i hate them for doing that.
-- You also want to know pass by value and pass by reference, for example, if i pass an array of int to another method and then do something like myArray[0] = 5, guess what, i just changed the contents of myArray for the calling method, this is because even though a copy of the array is passed in, they both have the same reference, if the method which has the array passed into renewed the reference then yes the earlier statement no longer applies.
+- You also want to know pass by value and pass by reference, for example, if i pass an array of int to another method and then do something like ```myArray[0] = 5```, guess what, i just changed the contents of myArray for the calling method, this is because even though a copy of the array is passed in, they both have the same reference, if the method which has the array passed into renewed the reference then yes the earlier statement no longer applies.
 - Know order of initialization, know your modifiers, know about static, final and all the other important keywords. Know the static block. 
 - Know that local variables MUST always be initialized before being used, class variables and member variables DO NOT have to be initialized, they are initialized to a default value for primitives it is a value, for objects it is null. however if you have the final keyword in front then you must initialize them before you can use them
 - Polymorphism they love putting these all over the practise exams, you'll have to understand it well
 - He talked about autompromoting of primitives during arithmetic operations, very important concept
-- Another trick here - System.out.println (1 + "2" + 3) outputs 123, System.out.println(1 + 2 + 3 + " ") will give you '6 ', always read from left to right while figuring out the final value
+- Another trick here - ```System.out.println (1 + "2" + 3)``` outputs 123, ```System.out.println(1 + 2 + 3 + " ")``` will give you '6 ', always read from left to right while figuring out the final value
 -one really annoying thing i noticed. Sometimes they will do something like Int l = myStringArray.length(); then do something like system.out.println(myStringArray[l]. Something really stupid i did was (and my brain was tired) the print statement is on line 2, and the letter 'L" lower case looks awfully like a 1, got it wrong on the practise test :)
-- Also please please please remember, that if you have an array you do myArr.length to get length, if you have string you do myString.length() and if u have list you do myList.size(), they love to confuse you with these ones those buggers
+- Also please please please remember, that if you have an array you do myArr.length to get length, if you have string you do ```myString.length()``` and if u have list you do ```myList.size()```, they love to confuse you with these ones those buggers
 - know the idfference between private, protected and package private really really well...
 - you also have to know what a virtual function / method is in java, it is any method that is not static and not marked with the keyword final. They have to be overrideable.
 - Know overloading really well, this one can be tricky too (i'm still getting caught up in some of the tricks)
