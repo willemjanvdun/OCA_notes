@@ -1,6 +1,19 @@
 # Notes OCA
 feel free to add notes via a Pull Request
 
+## Java Basics
+- Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. 
+"State", on the other hand, is represented by instance fields. Only a class can have instance fields and therefore, only a class can have a state. (Fields defined in an interface are always implicitly static, even if you don't specify the keyword static explicitly. Therefore, an interface does not have any state.)
+- Polymorphism makes code more reusable
+- Polymorphism makes the code more dynamic since it allows the actual decision of which method is to be invoked to be taken at runtame based on the actual object of the class
+- First, static statements/blocks are called IN THE ORDER they are defined. Next, instance initializer statements/blocks are called IN THE ORDER they are defined. Finally, the constructor is called. So, it prints a b c 2 3 4 1.
+- A constructor cannot be final, static or abstract.
+- Overloading of a method occurs when the name of more than one methods is exactly same but the parameter lists are different.
+- A method is said to be overloaded when the other method's name is same and parameters ( either the number or their order) are different.
+- You cannot access a private member of a superclass
+- If you declare a field to be final, it must be explicitly initialized by the time the creation of an object of the class is complete. So you can either initialize it immediately. You can't change its value once it is set.
+- Protected is not a valid way to encapsulate a field because any class in a package can access the field.
+
 ## Casting
 - A char value can ALWAYS be assigned to an int variable, since the int type is wider than the char type. So casting ```char c``` to ```int i``` is valid.
 - Sometimes we need to fit a value that is larger than the type used in the variable declaration. This may result in information loss since some bytes will have to be discarded.
@@ -12,6 +25,7 @@ byte myByte = (byte) myInt;
 - If Class B(ear) extends Class A(nimal), the Bear can always be A (without casting). An Animal is not always a bear so it needs casting ```Bear b = (Bear)a;```
 
 - Casting from a subclass to a superclass is called upcasting. Typically, the upcasting is implicitly performed by the compiler.
+
 ## Inheritance
 - A class can be extended unless it is declared final. 
 - Some notes about abstract
@@ -48,7 +62,6 @@ class B does implement I because it extends A, which implements I. A reference o
 
 ## Extended classes
 - The class that will be extended has some methods (with implementatin, which can be overriden) and even abstract methods (without a body) which define a method that the inheriting childclass should implement.
-
 
 ## Interfaces
 - Contract : Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
@@ -182,9 +195,6 @@ Observe that they dont create a new Boolean object but just return the static co
 If both are Boolean wrappers, then their references are compared just like in the case of other objects. ```Thus, new Boolean("true") == new Boolean("true")``` is false, but ```new Boolean("true") == Boolean.parseBoolean("true")``` is true.
 -The equals methods of all wrapper classes first check if the two object are of same class or not.
 
-## Constructor
-- Let erop dat je een vaak wel een no-args constructor nodig hebt
-
 ## Assignment
 ```boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
 int expr1 = 3 + 5 * 9 - 7;  //41       
@@ -225,10 +235,6 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 - If there is no catch block, the exception will not be handled and the invoking method will throw the exception to the caller.
 - A method that throws a 'checked' exception i.e. an exception that is not a subclass of Error or RuntimeException, either must declare it in throws clause or put the code that throws the exception in a try/catch block.
 - Once the exception is caught the rest of the catch blocks at the same level (that is the ones associated with the same try block) are ignored
-
-## Java Basics
-- Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. 
-"State", on the other hand, is represented by instance fields. Only a class can have instance fields and therefore, only a class can have a state. (Fields defined in an interface are always implicitly static, even if you don't specify the keyword static explicitly. Therefore, an interface does not have any state.)
 
 ## Imports
 - Bad syntax. A package statement can never have a *
@@ -280,6 +286,7 @@ public static long main(String[] args){ // this will give an error at Runtime, n
 ## Some random examples of cruelty
 Keep in mind to always check the number of answer that should be provided.... ;)
 
+- A class can have a method named Main. Although, since it is not same as main, it will not be considered the standard main method that the JVM can invoke when the program is executed.
 - LocalDate ld2 = ld.plus(Period.of(0, 1, 1));
 - final public static void main(String [ ] array)
 - When you see something about packages remember the following: Note that there is no modifier for A's constructor. So it has default access. (default == package only). This will most likely be an compile error
