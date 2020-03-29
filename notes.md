@@ -361,7 +361,7 @@ Keep in mind to always check the number of answer that should be provided.... ;)
    - For example, if you have a method in a class that is abstract but your class is not abstract, guess what compiler error! Even if you know this it is easy to miss on the exam.
 - They like to put tricks with strings like he said, like string.'methodname(arg0) you MUST assign it back to have it actually mean something
 - Another trick with date classes, ```LocalDate date = LocalDate.now()```, your variable must be created statically, ```LocalDate date = new LocalDate()``` DOES NOT COMPILE!
-- Touch on period also, Period p = Period.ofWeek(1).ofDays(1) this will mean a period of 1 day not 8 days... only the last one counts
+- Touch on period also, ```Period p = Period.ofWeek(1).ofDays(1)``` this will mean a period of 1 day not 8 days... only the last one counts
 - Make sure code compiles, they love to stump you with something simple like putting String as string in lower case which does not compile.
 - Autoboxing, know the valueOf and parseInt methods, and their return type for Integer wrapper class, parseInt returns primitive, whereas valueOf returns wrapper
 - Know the ```Arrays.sort(array)``` for the binary search, there will be 1 or 2 questions about that
