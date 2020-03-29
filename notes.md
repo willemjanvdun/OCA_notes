@@ -1,5 +1,5 @@
 # Notes OCA
-Some notes I made when preparing for the 1Z0‑808 (OCA8 Exam).Feel free to edit this file by creating a Pull Request.
+Some notes I made when preparing for the 1Z0‑808 (OCA8 Exam).
 
 ## Java Basics
 - Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. 
@@ -46,22 +46,19 @@ byte myByte = (byte) myInt;
 
 - The concept here is that an overriding method cannot make the overridden method more private.
 ```
-interface I{
-}
-class A implements I{
-}
-class B extends A {
-}
-class C extends B{
-}
-And the following declarations:
+interface I{ }
+class A implements I{ }
+class B extends A { }
+class C extends B{ }
+
+// And the following declarations:
 A a = new A();
 B b = new B();
 ```
 Class B does implement I because it extends A, which implements I. A reference of type I can be cast to any class at compile time. Since B is-a A, it can be assigned to a.
 
 ## Interfaces
-- Interfaces are implemented ```public class SomeWrestler implements IWrestler ```
+- Interfaces are implemented like so: ```public class SomeWrestler implements IWrestler ```
 - Contract : Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
 - Interface is group of related methods that should have been implemented by the class which claims that i’m provided common behavior of that interface
 - By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
@@ -72,9 +69,7 @@ Class B does implement I because it extends A, which implements I. A reference o
 - Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface. ```Therefore, you cannot assign any value to a variable from an interface outside the interface definition (overriding it is not possible).```
 
 ## Lambdas
-- java.util.function.Predicate is one of the several functional interfaces that have been added to Java 8. This interface has exactly one abstract method named test, which takes any object as input and returns a boolean. This comes in very handy when you have a collection of objects and you want to go through each object of that collection and see if that object satisfies some criteria. For example, you may have a collection of Employee objects and, in one place of your application, you want to remove all such employees whose age is below 50, while in other place, you want to remove all such employees whose salary is above 100,000. In both the cases, you want to go through your collection of employees, and check each Employee object to determine if it fits the criteria. This can be implemented by writing an interface named CheckEmployee and having a method check(Employee ) which would return true if the passed object satisfies the criteria. The following code fragments illustrate how it can be done - 
-- Whenever the method of a functional interface takes more than one parameter, you need to put the arguments within brackets.
-- If the method of a functional interface takes one parameter, you can omit the brackets. For example, ```x -> expression``` and ```(x) -> expression are equivalent```.  If the method of a functional interface takes no parameter, you must write empty brackets. For example, ```( ) -> expression```
+- ```java.util.function.Predicate``` is one of the several functional interfaces that have been added to Java 8. This interface has exactly one abstract method named test, which takes any object as input and returns a boolean. This comes in very handy when you have a collection of objects and you want to go through each object of that collection and see if that object satisfies some criteria. For example, you may have a collection of Employee objects and, in one place of your application, you want to remove all such employees whose age is below 50, while in other place, you want to remove all such employees whose salary is above 100,000. In both the cases, you want to go through your collection of employees, and check each Employee object to determine if it fits the criteria. This can be implemented by writing an interface named CheckEmployee and having a method check(Employee ) which would return true if the passed object satisfies the criteria. The following code fragments illustrate how it can be done: 
 ```
 public void filterEmployees(ArrayList<Employee> dataList, Predicate<Employee> p){
     Iterator<Employee> i = dataList.iterator();    
@@ -84,16 +79,17 @@ public void filterEmployees(ArrayList<Employee> dataList, Predicate<Employee> p)
         }    
     } 
 }  
-...  
+
 // Instead of defining a MyPredicate class (like we did with MyCheckEmployee), we could also define and instantiate an anonymous inner class to reduce code clutter 
+
 Predicate<Employee> p = new Predicate<Employee>(){   
     public boolean test(Employee e){      
         return e.getSalary()>100000;   
     } 
 };
 ```
-
-
+- Whenever the method of a functional interface takes more than one parameter, you need to put the arguments within brackets.
+- If the method of a functional interface takes one parameter, you can omit the brackets. For example, ```x -> expression``` and ```(x) -> expression are equivalent```.  If the method of a functional interface takes no parameter, you must write empty brackets. For example, ```( ) -> expression```
 - If you're replacing a method that does not take any parameters, the parameter list part of the lambda expression must be (). 
 ``` () -> System.out.println("running...")```
 - The following is ok as well when the method returns a void (but ugly IMHO)
@@ -135,13 +131,14 @@ class Automobile{
 - ```while (false) { x=3; }``` is a compile-time error because the statement x=3; is not reachable;
 = ```if(false){ x=3; }``` this is not a compile-time error because some exception to this rule.
 
+
+The increment operator(s) in a for-loop will run after running the code block that is executed!!!:
 ``` 
-// The increment operator(s) in a for-loop will run after running the code block that is executed!!! 
 for (int i = 0; i < 2; i++) {
     System.out.println("i: " + 1) // this will be 0! remember! 
 }
 ```
-
+Some examples of 'good' syntax regarding some loops:
 ```
 for (i=0 ;       ; i++) // Good
 for (int i=5; i=0; i--) { }; // Wrong
@@ -150,20 +147,17 @@ int i, j; for (j=10; i<j; j--) { i += 2; }; // Wrong
 int i=10; for ( ; i>0 ; i--) { }; // Good
 for (int i=0, j=10; i<j; i++, --j) {;}; // Good
 ```
-```
-// In no situation can the control go beyond this statement in the for loop. Therefore,  rest of the statements in the for loop are unreachable and so the code will not compile.
 
+In no situation can the control go beyond this statement in the for loop. Therefore,  rest of the statements in the for loop are unreachable and so the code will not compile:
+```
 if(index == 3){                 
         break;             
     } else {                  
         continue;             
     }
 ``` 
-
-
-
+Example of pre- and post increments: 
 ```
-//Example of pre- and post increments 
 public class PrePostIncrement {
     public static void main(String[] args) {
          thisWillRunOnce();
@@ -196,7 +190,9 @@ public class PrePostIncrement {
 Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
 
 ```
-Integer i = new Integer(42); Long ln = new Long(42); Double d = new Double(42.0);
+Integer i = new Integer(42); 
+Long ln = new Long(42); 
+Double d = new Double(42.0);
 i == ln; //will fail at compile time since the can never be == since the refer to different data types.
 // .equals will compile without problems.
 ``` 
@@ -241,7 +237,8 @@ Here are the rules for a switch statement:
 
 
 ## Exceptions
-- Exceptions are always some subclass of java.lang.Exception
+
+- Exceptions are always some subclass of **java.lang.Exception**        
 - Catch blocks are **not required**
 - An exception that is never caught will cause your application to stop
 - Throwable > Exception && Error
@@ -256,13 +253,12 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 - Overriding method only needs to specify a subset of the list of exception classes the overridden method can throw. A set of no classes is a valid subset of that list.
 - If an exception is not handled(catched or declared) it will print the stack trace to the console.
 - The main(String[] args) method is the last point in your program where any unhandled checked exception can bubble up to. After that the exception is thrown to the JVM and the JVM kills the thread.
-
-  ```a[thisWillThrowAnException()][i = 1]++;``` < If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated. [i = 1 will not be executed]
 - throw new NullPointerException(); < This is possible (although it looks strange..)
 - java.lang.SecurityException is a standard Exception (who knew..)
 - If there is no catch block, the exception will not be handled and the invoking method will throw the exception to the caller.
 - A method that throws a 'checked' exception i.e. an exception that is not a subclass of Error or RuntimeException, either must declare it in throws clause or put the code that throws the exception in a try/catch block.
 - Once the exception is caught the rest of the catch blocks at the same level (that is the ones associated with the same try block) are ignored
+- ```a[thisWillThrowAnException()][i = 1]++;``` < If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated. [i = 1 will not be executed]
 
 ## Imports
 - Bad syntax. A package statement can never have a *
@@ -305,11 +301,15 @@ public class TestClass {
 
 ## Java API
 
-```System.out.println(LocalDate.of(2015, Month.JANUARY, 01).format(DateTimeFormatter.ISO_DATE_TIME));```  // comp. error (no time-component)
-```final public static void main(String [ ] array)```   // works
-```public static void main(String args[ ]) // works```
-```static void main(String args[ ])``` // does not work since it is missing the required public
-```public static long main(String[] args){``` // this will give an error at Runtime, not compile time..
+>```So..ln(LocalDate.of(2015, Month.JANUARY, 01).format(DateTimeFormatter.ISO_DATE_TIME));```  // comp. error (no time-component)
+
+>```final public static void main(String [ ] array)```   // works
+
+>```public static void main(String args[ ]) // works```
+
+>```static void main(String args[ ])``` // does not work since it is missing the required public
+
+>```public static long main(String[] args){``` // this will give an error at Runtime, not compile time..
 
 ## Arrays
 - The statement ```int[ ][4]``` will not compile, because the dimensions must be created from left to right.
