@@ -250,7 +250,7 @@ Here are the rules for a switch statement:
 
 
 ## Exceptions
-
+- Any exception thrown in a **static block** is wrapped into **ExceptionInInitializerError**.
 - Exceptions are always some subclass of **java.lang.Exception**        
 - Catch blocks are **not required**
 - An exception that is never caught will cause your application to stop
@@ -326,6 +326,7 @@ public class TestClass {
 
 ## Arrays
 - The statement ```int[ ][4]``` will not compile, because the dimensions must be created from left to right.
+- Size of the array is NEVER specified on the Left Hand Side.
 - Arrays cannot grow in size once created. ArrayLists can do that.
 - In an array access, the expression to the left of the brackets appears to be fully evaluated before any part of the expression within the brackets is evaluated.
 - Arrays are proper objects (i.e. iArr instanceof Object returns true) and Object references are passed by value (so effectively, it seems as though objects are being passed by reference). So the value of reference of iArr is passed to the method incr(int[] i); This method changes the actual value of the int element at 0.
