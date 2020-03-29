@@ -232,17 +232,14 @@ If both are Boolean wrappers, then their references are compared just like in th
 
 Some examples of how to create a Boolean-objects (wrapper & primitive); 
 
- ```
+```
 Boolean.valueOf(true); // true 
 Boolean.valueOf("trUE"); // true
 Boolean.TRUE // true
 
 Boolean.parseboolean("true"); // will create a primitive-boolean. Not an wrapper-boolean.
-Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE" ```
- 
- 
-
- 
+Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE"
+```
 
 ## Assignment
 ```
