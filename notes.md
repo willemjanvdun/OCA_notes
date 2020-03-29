@@ -2,6 +2,7 @@
 Some notes I made when preparing for the 1Z0‑808 (OCA8 Exam).
 
 ## Java Basics
+- Which packages are automatically imported? ```java.lang``` && ```The package with no name ``` if no package is defined.
 - Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. 
 "State", on the other hand, is represented by instance fields. Only a class can have instance fields and therefore, only a class can have a state. (Fields defined in an interface are always implicitly static, even if you don't specify the keyword static explicitly. Therefore, an interface does not have any state.)
 - Polymorphism makes code more reusable
@@ -82,6 +83,7 @@ A class contains state and extending a class means inheriting the state. Since J
 
 
 ## Lambdas
+- It is an interface that has only one abstract method (among other non-abstract methods) with the signature - ```public boolean test(T t)```;
 - ```java.util.function.Predicate``` is one of the several functional interfaces that have been added to Java 8. This interface has exactly one abstract method named test, which takes any object as input and returns a boolean. This comes in very handy when you have a collection of objects and you want to go through each object of that collection and see if that object satisfies some criteria. For example, you may have a collection of Employee objects and, in one place of your application, you want to remove all such employees whose age is below 50, while in other place, you want to remove all such employees whose salary is above 100,000. In both the cases, you want to go through your collection of employees, and check each Employee object to determine if it fits the criteria. This can be implemented by writing an interface named CheckEmployee and having a method check(Employee ) which would return true if the passed object satisfies the criteria. The following code fragments illustrate how it can be done: 
 ```
 public void filterEmployees(ArrayList<Employee> dataList, Predicate<Employee> p){
@@ -105,7 +107,7 @@ Predicate<Employee> p = new Predicate<Employee>(){   
 - If the method of a functional interface takes one parameter, you can omit the brackets. For example, ```x -> expression``` and ```(x) -> expression are equivalent```.  If the method of a functional interface takes no parameter, you must write empty brackets. For example, ```( ) -> expression```
 - If you're replacing a method that does not take any parameters, the parameter list part of the lambda expression must be (). 
 ``` () -> System.out.println("running...")```
-- The following is ok as well when the method returns a void (but ugly IMHO)
+- The following is ok as well when the method returns a void;
 ```() -> { System.out.println("running..."); return; }```
 
 ## Overriding
@@ -228,6 +230,20 @@ Observe that they dont create a new Boolean object but just return the static co
 If both are Boolean wrappers, then their references are compared just like in the case of other objects. ```Thus, new Boolean("true") == new Boolean("true")``` is false, but ```new Boolean("true") == Boolean.parseBoolean("true")``` is true.
 -The equals methods of all wrapper classes first check if the two object are of same class or not.
 
+Some examples of how to create a Boolean-objects (wrapper & primitive); 
+
+ ```
+Boolean.valueOf(true); // true 
+Boolean.valueOf("trUE"); // true
+Boolean.TRUE // true
+
+Boolean.parseboolean("true"); // will create a primitive-boolean. Not an wrapper-boolean.
+Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE" ```
+ 
+ 
+
+ 
+
 ## Assignment
 ```
 boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
@@ -274,7 +290,10 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 - ```a[thisWillThrowAnException()][i = 1]++;``` < If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated. [i = 1 will not be executed]
 
 ## Imports
-- Bad syntax. A package statement can never have a *
+- A package statement can never have a .*
+- The order of keywords for a static import must be "import static ... ".
+- you cannot import a package statically. You can only import static members of a class statically. When you use X.LOGICID for example, the import will need to be like this: ```import static com.foo.X.*;```.
+
 
 ## Garbage collection
 
@@ -313,7 +332,8 @@ public class TestClass {
 
 
 ## Java API
-
+- ```None of the new date related classes have public constructors```. So using **new** to create their instances would be invalid.
+- The String class has no reverse( ) method but StringBuffer (and StringBuilder) do have this method.
 >```So..ln(LocalDate.of(2015, Month.JANUARY, 01).format(DateTimeFormatter.ISO_DATE_TIME));```  // comp. error (no time-component)
 
 >```final public static void main(String [ ] array)```   // works
@@ -323,6 +343,8 @@ public class TestClass {
 >```static void main(String args[ ])``` // does not work since it is missing the required public
 
 >```public static long main(String[] args){``` // this will give an error at Runtime, not compile time..
+
+>```LocalDate ld2 = ld.plus(Period.of(0, 1, 1));``` // this will work! 
 
 ## Arrays
 - The statement ```int[ ][4]``` will not compile, because the dimensions must be created from left to right.
@@ -340,11 +362,13 @@ public class TestClass {
 ```
 ## Operators
 - Multiplication has more precedence than addition. 
-- we have a simple for loop whe have a incrementer. This will only be 'exececuted' when the condition in the for loop is true. //TODO UITZOEKEN OF DAT ECHT ZO IS>..
+- we have a simple for loop whe have a incrementer. This will only be 'exececuted' when the condition in the for loop is true.
+- The if-else-else is invalid. It should be if , else if, else.
 
 ## Some random examples of cruelty :angry:
 Keep in mind to always check the number of answer that should be provided.... ;)
 
+- Note that both equals() and hashCode() methods can be overridden by the programmer so you can't say anything about what they will return without looking at the code.
 - A class can have a method named Main. Although, since it is not same as main, it will not be considered the standard main method that the JVM can invoke when the program is executed.
 - ```LocalDate ld2 = ld.plus(Period.of(0, 1, 1));```
 - ```final public static void main(String [ ] array)```
