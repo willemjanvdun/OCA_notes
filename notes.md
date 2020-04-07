@@ -1,23 +1,61 @@
 # Notes OCA
 Some notes I made when preparing for the 1Z0‑808 (OCA8 Exam).
 
-## Java Basics
+# Java Basics
 - Which packages are automatically imported? ```java.lang``` && ```The package with no name ``` if no package is defined.
-- Java allows a class to implement multiple interfaces. In this way, Java supports multiple inheritance of types. 
-"State", on the other hand, is represented by instance fields. Only a class can have instance fields and therefore, only a class can have a state. (Fields defined in an interface are always implicitly static, even if you don't specify the keyword static explicitly. Therefore, an interface does not have any state.)
-- Polymorphism makes code more reusable
-- Polymorphism makes the code more dynamic since it allows the actual decision of which method is to be invoked to be taken at runtame based on the actual object of the class
 - First, static statements/blocks are called IN THE ORDER they are defined. Next, instance initializer statements/blocks are called IN THE ORDER they are defined. Finally, the constructor is called. So, it prints a b c 2 3 4 1.
-- A constructor cannot be final, static or abstract.
-- Overloading of a method occurs when the name of more than one methods is exactly same but the parameter lists are different.
-- A method is said to be overloaded when the other method's name is same and parameters ( either the number or their order) are different.
+- A constructor cannot be ```final```, ```static``` or ```abstract```.
 - You cannot access a private member of a superclass
 - If you declare a field to be final, it must be explicitly initialized by the time the creation of an object of the class is complete. So you can either initialize it immediately. You can't change its value once it is set.
 - Protected is not a valid way to encapsulate a field because any class in a package can access the field.
 - If evaluation of the left-hand operand of a binary operator completes abruptly, no part of the right-hand operand appears to have been evaluated.
-- private->'no modifier'->protected->public (no modifier is default and means the method will be accessible only to all the classes in the same package. (i.e. not even to the subclass if the subclass is in a different package.))
+- ```private``` -> ```no modifier```-> ```protected``` -> ```public``` (no modifier is default and means the method will be accessible only to all the classes in the same package. (i.e. not even to the subclass if the subclass is in a different package.))
+- A class can be extended unless it is declared final. 
+
+# Inheritance
+
+## Basics of inheritance
+- Java allows a class to implement multiple interfaces. An interface is a "type" and does not contain any state. ```This implies that Java supports multiple type inheritance```.
+A class contains state and extending a class means inheriting the state. Since Java does not allow a class to extend from multiple classes, it means that ```Java does not support multiple state inheritance```.
+- Polymorphism makes code more ```reusable```
+- Polymorphism makes the code more ```dynamic``` since it allows the actual decision of which method is to be invoked to be taken at runtame based on the actual object of the class
+- Which variable or method to use:
+   1. Which variable (or static method) will be used depends on the class that the variable is declared of 
+     (The extending class gets to use the variables of the ```extended``` class) (```Having ambiguous fields does not cause any problems but referring to such fields in an ambiguous way will cause a compile time error```).
+   2. ```Which instance method will be used depends on the actual class of the object that is referenced by the variable``` (So if a object is referenced as a Bear (by casting) the Bear-method will be used).
+
+
+## Abstract
+```Abstract class in java can't be instantiated```. An abstract class is mostly used to provide ```a base for subclasses``` to extend and ```implement the abstract methods``` and ```override or use the implemented methods``` in abstract class.
+
+
+- A class is uninstantiable if the class is declared abstract. If a method has been declared as abstract, it cannot provide an implementation (i.e. it cannot have a method body ) and the class containing that method must be declared abstract). 
+- ```If any method in a class is declared abstract, then the whole class must be declared abstract```. 
+- An class can still be made abstract even if it has no abstract method(s).
+- Return types must be the same when overriding an method (same name && same parameter == same return type)
+- The class that will be extended ```can have has some methods (with implementation, which can be overriden)``` and abstract methods (without a body) which define a method that the inheriting childclass should implement.
 
 ## Casting
+- Casting from a subclass to a superclass is called upcasting. Typically, the upcasting is implicitly performed by the compiler.
+! You can assign a subclass object reference to superclass reference without a cast but to assign a super class object reference to a subclass (or interface) reference you need an explicit cast.
+> ``` Bear Extends Animal```. Bear is-a Animal. So it can be assigned to Animal animal.  The other way around: ``` Bear b = (B)animal ```. A animal is not necessarily a bear so it needs casting.
+
+
+# Interfaces
+Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
+- Interfaces are implemented like so: ```public class SomeWrestler implements IWrestler ```
+- Interface is group of related methods that should have been implemented by the class which claims that i’m provided common behavior of that interface.
+- By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
+- When you mark a method in an interface as default, you are basically trying to provide a default implementation of that method so that any class that implements this interface doesn't necessarily have to provide its own implementation. Thus, a default method without a method body doesn't make sense.
+
+## Signature
+- All interface methods have to be public (they need to be visible because they need to be overriden).
+- The method body is not defined, just the name and the parameters.
+- An interface can have a static method but the method must have a body in that case.
+
+>Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface.
+
+# Data Type Casting
 - A char value can ALWAYS be assigned to an int variable, since the int type is wider than the char type. So casting ```char c``` to ```int i``` is valid.
 - Sometimes we need to fit a value that is larger than the type used in the variable declaration. This may result in information loss since some bytes will have to be discarded.
 In this case, we have to explicitly express that we are aware of the situation and we agree with that, by using a cast:
@@ -27,65 +65,62 @@ byte myByte = (byte) myInt;
 ```
 - If Class B(ear) extends Class A(nimal), the Bear can always be A (without casting). An Animal is not always a bear so it needs casting ```Bear b = (Bear)a;```
 
-- Casting from a subclass to a superclass is called upcasting. Typically, the upcasting is implicitly performed by the compiler.
 
-## Inheritance
-- A class can be extended unless it is declared final. 
-- Some notes about abstract
-    - A class is uninstantiable if the class is declared abstract. If a method has been declared as abstract, it cannot provide an implementation (i.e. it cannot have a method body ) and the class containing that method must be declared abstract). 
-    - If any method in a class is declared abstract, then the whole class must be declared abstract. 
-    - An class can still be made abstract even if it has no abstract method.
-- Return types must be the same when overriding an method (same name && same parameter == same return type)
-! You can assign a subclass object reference to superclass reference without a cast but to assign a super class object reference to a subclass (or interface) reference you need an explicit cast.
-> ``` Bear Extends Animal```. Bear is-a Animal. So it can be assigned to Animal animal.  The other way around: ``` Bear b = (B)animal ```. A animal is not necessarily a bear so it needs casting
-- Which to use:
-   - Which variable (or static method) will be used depends on the class that the variable is declared of.
-   - Which instance method will be used depends on the actual class of the object that is referenced by the variable.
-- The rule is that an overriding method cannot throw an exception that is a super class of the exception thrown by the overridden method (which meens the exception thown in the the method that is overriding must be the same or narrower. Throwing less exceptions is also possible (eg. leaving them out of the method signature)).
-- The class that will be extended has some methods (with implementation, which can be overriden) and even abstract methods (without a body) which define a method that the inheriting childclass should implement.
-- Having ambiguous fields does not cause any problems but referring to such fields in an ambiguous way will cause a compile time error.
+# Methods & Constructors
 
-- The concept here is that an overriding method cannot make the overridden method more private.
-```
-interface I{ }
-class A implements I{ }
-class B extends A { }
-class C extends B{ }
-
-// And the following declarations:
-A a = new A();
-B b = new B();
-```
-Class B does implement I because it extends A, which implements I. A reference of type I can be cast to any class at compile time. Since B is-a A, it can be assigned to a.
-
-## Interfaces
-- Interfaces are implemented like so: ```public class SomeWrestler implements IWrestler ```
-- Contract : Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
-- Interface is group of related methods that should have been implemented by the class which claims that i’m provided common behavior of that interface
-- By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
-- In an interface, the method body is not defined, just the name and the parameters.
-- Multiple interfaces can be implemented (generally, inherited) at a time.
-- All interface methods have to be public.
-- An interface can have a static method but the method must have a body in that case.
-- Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface. ```Therefore, you cannot assign any value to a variable from an interface outside the interface definition (overriding it is not possible).```
-
-### Methods & Constructors
-- The call to ```printSum(1.0, 2.0)``` will be bound to ```printSum(double, double )``` because 1.0 and 2.0 are double, which are exact match to double, double.  Note that if you call ```printSum(1, 2)``` , ```printSum(float, float)``` would have been invoked instead of ```printSum(double, double)``` because a float is closer than a double to an int. 
-- You cannot have two methods with the same signature (name and parameter types) in one class. Also, even if you put one sayHello() method in other class which is a subclass of this class, it won't compile because you cannot override/hide a static method with a non static method and vice versa.
+## Basics
 - Constructors cannot have empty bodyies (i.e. they cannot be abstract).
 - You may apply ```public```, ```private```, and ```protected``` modifiers to a constructor. But not ```static```, ```final```, ```synchronized```, ```native``` and ```abstract```. It can ```also be package private i.e. without any access modifier```.
-- The call to ```printSum(1, 2)``` will be bound to ```printSum(int, int)``` because 1 and 2 are ints, which are exact match to int, int.  Note that if ```printSum(int, int)``` method were not there in the code, ```printSum(double, double)``` would have been invoked instead of ```printSum(Integer, Integer)``` because ```widening is preferred over boxing/unboxing```.
 - ```protected``` is less restrictive than package access. So a method(or field) declared as protected ```will be accessible from a subclass even if the subclass is not in the same package```.
-- The rule is that you cannot have methods that create ambiguity for the compiler in a class. It is ```illegal for a class to have two methods having same name and having same type of input parameters in the same order```.
-- Java allows a class to implement multiple interfaces. An interface is a "type" and does not contain any state. ```This implies that Java supports multiple type inheritance```.
-A class contains state and extending a class means inheriting the state. Since Java does not allow a class to extend from multiple classes, it means that ```Java does not support multiple state inheritance```.
-- It is not possible to access x from main without making it static. Because main is a static method and only static members are accessible from static methods. There is no 'this' available in main so none of the this.x are valid.
+- You cannot have two methods with the same signature (name and parameter types) in one class. Also, even if you put one sayHello() method in other class which is a subclass of this class, it won't compile because you cannot override/hide a static method with a non static method and vice versa.
 
+
+## Overriding 
+- Trying to override a static method with a non-static method (and vice-versa) in a class will result in a compilation error.
+- The overriding method must have same return type in case of primitives (a subclass is allowed in case of classes)  (Therefore, the choices returning int are not valid.) and the parameter list must be the same (The name of the parameter does not matter, just the Type is important).
+- When extending a class, keep in mind that overridden methods must have the same return type as the overridden method
+- An interface can redeclare a default method and also make it abstract or provide a different implementation
+- If you make a method static, that method cannot be overridden because the concept of overriding (and polymorphism) only applies to instance method.
+The overriding method can throw a subset of the exception or subclass of the exceptions thrown by the overridden class. Having no throws clause is also valid since an empty set is a valid subset. 
+- An overriding method can be made less restrictive than the overridden method. (kinda like the other way around with exceptions, the must be narrower)
+
+```
+class Automobile{
+    public void drive() {  System.out.println("Automobile: drive");   }
+}
+class Truck extends Automobile {
+    public void drive() {  System.out.println("Truck: drive");   }
+
+    public static void main (String args [ ]){
+        Automobile a = new Automobile();
+        Truck t  = new Truck();
+        a.drive();      //1 > Automobile: drive
+        t.drive();      //2 > Truck: drive
+
+        a = t;          //3 > no problem since a Truck is an Automobile
+//      t = a;          //4 > won't compile an automobile is not necessarily a truck
+        t = (Truck) a;  //5 > compiles after casting // will print Truck drive
+
+        a.drive();      //6 > Truck: drive
+        t.drive();      //7 > Truck: drive
+    }
+}
+```
+
+## Overloading & widening vs. boxing/unboxing
+- Overloading of a method occurs when the name of more than one methods is exactly same but the parameter lists are different.
+- A method is said to be overloaded when the other method's name is same and parameters ( either the number or their order) are different.
+- The call to ```printSum(1, 2)``` will be bound to printSum(```int, int```) because 1 and 2 are ints, which are exact match to int, int.  Note that if printSum(```int, int```) method were not there in the code, printSum(```double, double```) would have been invoked instead of printSum(```Integer, Integer```) because ```widening is preferred over boxing/unboxing```.
+- The call to printSum(```1.0, 2.0```) will be bound to printSum(```double, double```) because 1.0 and 2.0 are double, which are exact match to double, double.  Note that if you call ```printSum(1, 2)``` , printSum(```float, float```) would have been invoked instead of printSum(```double, double```) because a float is closer than a double to an int. 
 
 ## Lambdas
 - It is an interface that has only one abstract method (among other non-abstract methods) with the signature - ```public boolean test(T t)```;
-- ```java.util.function.Predicate``` is one of the several functional interfaces that have been added to Java 8. This interface has exactly one abstract method named test, which takes any object as input and returns a boolean. This comes in very handy when you have a collection of objects and you want to go through each object of that collection and see if that object satisfies some criteria. For example, you may have a collection of Employee objects and, in one place of your application, you want to remove all such employees whose age is below 50, while in other place, you want to remove all such employees whose salary is above 100,000. In both the cases, you want to go through your collection of employees, and check each Employee object to determine if it fits the criteria. This can be implemented by writing an interface named CheckEmployee and having a method check(Employee ) which would return true if the passed object satisfies the criteria. The following code fragments illustrate how it can be done: 
+- ```java.util.function.Predicate``` is one of the several functional interfaces that have been added to Java 8. 
+-This interface has exactly one abstract method named test, which takes any object as input and returns a boolean. This comes in very handy when you have a collection of objects and you want to go through each object of that collection and see if that object satisfies some criteria. 
+
 ```
+//The following code fragments illustrate a lambda-function: 
+
 public void filterEmployees(ArrayList<Employee> dataList, Predicate<Employee> p){
     Iterator<Employee> i = dataList.iterator();    
     while(i.hasNext()){         
@@ -103,92 +138,57 @@ Predicate<Employee> p = new Predicate<Employee>(){   
     } 
 };
 ```
-- Whenever the method of a functional interface takes more than one parameter, you need to put the arguments within brackets.
 - If the method of a functional interface takes one parameter, you can omit the brackets. For example, ```x -> expression``` and ```(x) -> expression are equivalent```.  If the method of a functional interface takes no parameter, you must write empty brackets. For example, ```( ) -> expression```
 - If you're replacing a method that does not take any parameters, the parameter list part of the lambda expression must be (). 
 ``` () -> System.out.println("running...")```
 - The following is ok as well when the method returns a void;
 ```() -> { System.out.println("running..."); return; }```
 
-## Overriding
-- When the return type of the overridden method (i.e. the method in the base/super class) is a primitive, the return type of the overriding method (i.e. the method in the sub class) must match the return type of the overridden method.
-- Trying to override a static method with a non-static method (and vice-versa) in a class will result in a compilation error.
-- When extending a class, keep in mind that overridden methods must have the same return type as the overridden method
-- An interface can redeclare a default method and also make it abstract or provide a different implementation
-- If you make a method static, that method cannot be overridden because the concept of overriding (and polymorphism) only applies to instance method.
-- The overriding method must have same return type in case of primitives (a subclass is allowed in case of classes)  (Therefore, the choices returning int are not valid.) and the parameter list must be the same (The name of the parameter does not matter, just the Type is important). 
-- The overriding method can throw a subset of the exception or subclass of the exceptions thrown by the overridden class. Having no throws clause is also valid since an empty set is a valid subset. 
-- An overriding method can be made less restrictive than the overridden method. (kinda like the other way around with exceptions, the must be narrower)
-- When you mark a method in an interface as default, you are basically trying to provide a default implementation of that method so that any class that implements this interface doesn't necessarily have to provide its own implementation. Thus, a default method without a method body doesn't make sense.
 
-```
-class Automobile{
-   public void drive() {  System.out.println("Automobile: drive");   }
-}
- public class Truck extends Automobile{
-   public void drive() {  System.out.println("Truck: drive");   }
-   public static void main (String args [ ]){
-      Automobile  a = new Automobile();
-      Truck t  = new Truck();
-      a.drive(); //1 > Automobile: drive
-      t.drive(); //2 > Truck: drive
-      a = t;     //3 
-      t = a;     //4
-      a.drive(); //5 > Truck: drive
-      t.drive(); //6 > Truck: drive
-   }
-}
-```
 
 ## Loops
-- The break statement immediately jumps to the end (and out) of the appropriate compound statement.
-- The continue statement immediately jumps to the next iteration (if any) of the appropriate loop.
+- The ```break``` statement immediately jumps ```to the end (and out)``` of the appropriate compound statement.
+- The ```continue``` statement immediately jumps ```to the next iteration``` (if any) of the appropriate loop.
+
+
 - ```while (false) { x=3; }``` is a compile-time error because the statement x=3; is not reachable;
-= ```if(false){ x=3; }``` this is not a compile-time error because some exception to this rule.
+= ```if(false){ x=3; }``` this is not a a compile-time error because this is allowed in an ```if-statement```
 
-
-The increment operator(s) in a for-loop will run after running the code block that is executed!!!:
-``` 
-for (int i = 0; i < 2; i++) {
-    System.out.println("i: " + 1) // this will be 0! remember! 
-}
-```
-Some examples of 'good' syntax regarding some loops:
-```
-for (i=0 ;       ; i++) // Good
-for (int i=5; i=0; i--) { }; // Wrong
-int j=5; for(int i=0, j+=5;  i<j ; i++) {  j--;  }; // Wrong
-int i, j; for (j=10; i<j; j--) { i += 2; }; // Wrong
-int i=10; for ( ; i>0 ; i--) { }; // Good
-for (int i=0, j=10; i<j; i++, --j) {;}; // Good
 ```
 
-In no situation can the control go beyond this statement in the for loop. Therefore,  rest of the statements in the for loop are unreachable and so the code will not compile:
+// Some examples of 'good' syntax regarding some loops:
+
+for (i=0 ;       ; i++)                                 // Good
+for (int i=5; i=0; i--) { };                            // Wrong
+int j=5; for(int i=0, j+=5;  i<j ; i++) {  j--;  };     // Wrong
+int i, j; for (j=10; i<j; j--) { i += 2; };             // Wrong
+int i=10; for ( ; i>0 ; i--) { };                       // Good
+for (int i=0, j=10; i<j; i++, --j) {;};                 // Good
 ```
+
+```
+// Another example of a loop that will not compile (due to unreachable code):
+
 if(index == 3){                 
         break;             
     } else {                  
         continue;             
     }
 ``` 
-Example of pre- and post increments: 
 ```
-public class PrePostIncrement {
-    public static void main(String[] args) {
-         thisWillRunOnce();
-        thisWillRunTwice();
-    }
+// Example of pre- and post increments: 
 
-    static void thisWillRunOnce() { // 1 will be printed
+    void thisWillRunOnce() { 
         System.out.println("running method thisWillRunOnce()");
         int i = 0;
         for (; ++i < 1; ) {
-            System.out.println("this code will not be reached: "+ i); // this code will not be reached
+            System.out.println("This will be skipped: "+ i); // this code will not be reached
         }
         System.out.println(i); //this will return 1
     }
+    // 1 will be printed
 
-    static void thisWillRunTwice() { // 1 & 2 will be printend
+    void thisWillRunTwice() {
         System.out.println("running method thisWillRunTwice()");
         int i = 0;
         for (; i++ < 1; ) { //The while condition uses post increment operator, which means count is first compared with 1 (and based on this comparison a decision is made whether to execute the loop again or not) and then incremented.
@@ -196,26 +196,24 @@ public class PrePostIncrement {
         }
         System.out.println(i); //this will return 2
     }
-
+    // 1 & 2 will be printend
 }
 ```
 
-## Java Data types
-```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
-Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
-
+## Equals
 ```
-Integer i = new Integer(42); 
-Long ln = new Long(42); 
-Double d = new Double(42.0);
-i == ln; //will fail at compile time since the can never be == since the refer to different data types.
-// .equals will compile without problems.
-``` 
-
+Integer i;
+Long l;
+i == long // will fail to compile since comparing these to using ```==````is useless.
+```
 - Equals method of a primitive wrapper class ( e.g. java.lang.Integer, Double, Float etc) are 
-1. symmetric => a.equals(b) returns same as b.equals(a) 
-2. transitive => if a.equals(b) and b.equals(c) return true, then a.equals(c) returns true. 
-3. reflexive => a.equals(a) return true.  For example, the following code for the equals method on Integer explains how it works: 
+
+The equals method of a primite wrapper class has the following specifications:
+- symmetric => a.equals(b) returns same as b.equals(a) 
+- transitive => if a.equals(b) and b.equals(c) return true, then a.equals(c) returns true. 
+- reflexive => a.equals(a) return true.  For example, the following code for the equals method on Integer explains how it works: 
+
+## Instanceof
 ```
 public boolean equals(Object obj) {    
     if (obj instanceof Integer) {        
@@ -224,6 +222,46 @@ public boolean equals(Object obj) {    
         return false; 
 } 
 ```
+- The left operand of instanceof MUST be a reference variable and not a primitive.
+- D extends C, which extends B, which extends A. This means, D is-a C, C is-a B, and B is-a A. Therefore, D is-a A. Hence, d instanceof A will return true.
+- The expression (o instanceof B) will return true if the object referred to by o is of type B or a subtype of B. (subtype == extending B of some class that extends B or a class that extends a class that extends a class that extends B ;))
+```
+class Animal {}   
+class Dog extends Animal { }   
+Dog d = new Dog();
+System.out.println(d instanceof Animal) //True
+```
+Now, d instanceof Animal will be true because even though d is actually an instance of Dog, since Dog is a subclass of Animal, Dog IS-A Animal.
+- Since A implements both T1 and T2, 1 and 2 are correct. (a instanceof T1 will be true)
+- ```(s instanceof java.util.Date) ``` will not compile.... so the instanceof-operator checks if a check is useful/possible.
+- ```b points to an object of class Bat, which does not extend from Bird```. Now, it is possible for b to point to an object of any subclass of Bat. However, it is not possible for that sub class to extend Bird (because a class can at most extend from only one class). ```Therefore, it is not possible for b to point to an object of a class that "is a" Bird.``` The compiler figures out this fact at compile time itself and so the code fails to compile.
+
+```interface Flyer{ }
+class Bird implements Flyer { }
+class Eagle extends Bird { }
+class Bat { }
+
+public class TestClass {
+    
+    public static void main(String[] args) {
+        Flyer f = new Eagle();
+        Eagle e = new Eagle();
+        Bat b = new Bat();
+
+// At run time, f points to an object of class Eagle. Now, Eagle extends Bird so f instanceof Bird returns true. e points to an object of class Eagle. Eagle extends Bird, which in turn implements Flyer. So an Eagle is a Flyer. Therefore, e instanceof Flyer will also return true.  b points to an object of class Bat, which does not extend from Bird. Therefore, b instanceof Flyer returns false.        
+```
+
+
+
+
+
+## Java Data types
+```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
+Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
+
+
+
+
 - Boolean class has two static helper methods for creating booleans - parseBoolean and valueOf. Boolean.parseBoolean(String ) method returns a primitive boolean and not a Boolean object (Note - Same is with the case with other parseXXX methods such as Integer.parseInt - they return primitives and not objects). 
 The boolean returned represents the value true if the string argument is not null and is equal, ignoring case, to the string "true".  Boolean.valueOf(String ) and its overloaded Boolean.valueOf(boolean ) version, on the other hand, work similarly but return a reference to either Boolean.TRUE or Boolean.FALSE wrapper objects. 
 Observe that they dont create a new Boolean object but just return the static constants TRUE or FALSE defined in Boolean class.  3. When you use the equality operator ( == ) with booleans, if exactly one of the operands is a Boolean wrapper, it is first unboxed into a boolean primitive and then the two are compared (JLS 15.21.2). 
@@ -238,8 +276,17 @@ Boolean.valueOf("trUE"); // true
 Boolean.TRUE // true
 
 Boolean.parseboolean("true"); // will create a primitive-boolean. Not an wrapper-boolean.
+<<<<<<< HEAD
 Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE"
 ```
+=======
+Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE" 
+```
+ 
+ 
+
+ 
+>>>>>>> message
 
 ## Assignment
 ```
@@ -270,6 +317,7 @@ Here are the rules for a switch statement:
 - Throwable > Exception && Error
 - The most specific catch-clause must be at the top, otherwise it will be unreachable code (since a broader Exception will trigger) and thus will not compile.
 - The exceptions that a method can throw must be declared > void myFunction() throws MyException, MyException2 { //method body} A method that 'receives' an Exception must either catch in or rethrow it (and it this case declare in in the method signature)
+- The rule is that an overriding method cannot throw an exception that is a super class of the exception thrown by the overridden method (which meens the exception thown in the the method that is overriding must be the same or narrower. Throwing less exceptions is also possible (eg. leaving them out of the method signature)).
 - Finally statements are ALWAYS executed, whether an exception was thrown or not (after the return statement, before the return executes)
 - You do not need to declare catch-clauses for RuntimeExceptions like ArrayIndexOutOfBounds(or method signatures)
 - When a extended class has a method with a throws Exception the method/class that uses this method should also have this exception-signature. (in for example the main method) 
@@ -297,35 +345,7 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 - If an objects get returned in a method it will never be a candidate for Garbage collection within this method.
 
 
-## Instanceof
-- The left operand of instanceof MUST be a reference variable and not a primitive.
-- D extends C, which extends B, which extends A. This means, D is-a C, C is-a B, and B is-a A. Therefore, D is-a A. Hence, d instanceof A will return true.
-- The expression (o instanceof B) will return true if the object referred to by o is of type B or a subtype of B. (subtype == extending B of some class that extends B or a class that extends a class that extends a class that extends B ;))
-```
-class Animal {}   
-class Dog extends Animal { }   
-Dog d = new Dog();
-System.out.println(d instanceof Animal) //True
-```
-Now, d instanceof Animal will be true because even though d is actually an instance of Dog, since Dog is a subclass of Animal, Dog IS-A Animal.
-- Since A implements both T1 and T2, 1 and 2 are correct. (a instanceof T1 will be true)
-- ```(s instanceof java.util.Date) ``` will not compile.... so the instanceof-operator checks if a check is useful/possible.
-- ```b points to an object of class Bat, which does not extend from Bird```. Now, it is possible for b to point to an object of any subclass of Bat. However, it is not possible for that sub class to extend Bird (because a class can at most extend from only one class). ```Therefore, it is not possible for b to point to an object of a class that "is a" Bird.``` The compiler figures out this fact at compile time itself and so the code fails to compile.
 
-```interface Flyer{ }
-class Bird implements Flyer { }
-class Eagle extends Bird { }
-class Bat { }
-
-public class TestClass {
-    
-    public static void main(String[] args) {
-        Flyer f = new Eagle();
-        Eagle e = new Eagle();
-        Bat b = new Bat();
-
-// At run time, f points to an object of class Eagle. Now, Eagle extends Bird so f instanceof Bird returns true. e points to an object of class Eagle. Eagle extends Bird, which in turn implements Flyer. So an Eagle is a Flyer. Therefore, e instanceof Flyer will also return true.  b points to an object of class Bat, which does not extend from Bird. Therefore, b instanceof Flyer returns false.        
-```
 
 
 ## Java API
