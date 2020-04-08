@@ -1,45 +1,62 @@
 # Notes OCA
-Some notes I made when preparing for the 1Z0‑808 (OCA8 Exam).
+Some notes I made when preparing for the 1Z0‑808 (OCA8) Exam.
 
 # Java Basics
 - Which packages are automatically imported? ```java.lang``` && ```The package with no name ``` if no package is defined.
-- First, static statements/blocks are called IN THE ORDER they are defined. Next, instance initializer statements/blocks are called IN THE ORDER they are defined. Finally, the constructor is called. So, it prints a b c 2 3 4 1.
-- A constructor cannot be ```final```, ```static``` or ```abstract```.
+- First, static statements/blocks are called IN THE ORDER they are defined. Next, instance initializer statements/blocks are called IN THE ORDER they are defined. Finally, the constructor is called.
 - You cannot access a private member of a superclass
 - If you declare a field to be final, it must be explicitly initialized by the time the creation of an object of the class is complete. So you can either initialize it immediately. You can't change its value once it is set.
-- Protected is not a valid way to encapsulate a field because any class in a package can access the field.
-- If evaluation of the left-hand operand of a binary operator completes abruptly, no part of the right-hand operand appears to have been evaluated.
+- Protected is not a valid way to encapsulate a field because any class in the package can access the field.
 - ```private``` -> ```no modifier```-> ```protected``` -> ```public``` (no modifier is default and means the method will be accessible only to all the classes in the same package. (i.e. not even to the subclass if the subclass is in a different package.))
-- A class can be extended unless it is declared final. 
 
 # Inheritance
 
-## Basics of inheritance
-- Java allows a class to implement multiple interfaces. An interface is a "type" and does not contain any state. ```This implies that Java supports multiple type inheritance```.
+## Extends vs. Implements
+Java allows a class to implement multiple interfaces. An interface is a "type" and does not contain any state. ```This implies that Java supports multiple type inheritance```.
 A class contains state and extending a class means inheriting the state. Since Java does not allow a class to extend from multiple classes, it means that ```Java does not support multiple state inheritance```.
-- Polymorphism makes code more ```reusable```
-- Polymorphism makes the code more ```dynamic``` since it allows the actual decision of which method is to be invoked to be taken at runtame based on the actual object of the class
-- Which variable or method to use:
-   1. Which variable (or static method) will be used depends on the class that the variable is declared of 
-     (The extending class gets to use the variables of the ```extended``` class) (```Having ambiguous fields does not cause any problems but referring to such fields in an ambiguous way will cause a compile time error```).
-   2. ```Which instance method will be used depends on the actual class of the object that is referenced by the variable``` (So if a object is referenced as a Bear (by casting) the Bear-method will be used).
+- A class can be extended unless it is declared final. 
 
+## Polymorphism
+Polymorphism makes code more ```reusable``` and more ```dynamic``` since it allows the actual decision of which method is to be invoked to be taken at runtame based on the actual object of the class
+- Which variable or method to use:
+>```Which variable (or static method) will be used depends on the class that the variable is declared of ```
+
+(The extending class gets to use the variables of the ```extended``` class) (Having ambiguous fields does not cause any problems but referring to such fields in an ambiguous way will cause a compile time error).
+
+>```Which instance method will be used depends on the actual class of the object that is referenced by the variable``` 
+
+(So if a object is referenced as a Bear (by casting) the Bear-method will be used).
 
 ## Abstract
 ```Abstract class in java can't be instantiated```. An abstract class is mostly used to provide ```a base for subclasses``` to extend and ```implement the abstract methods``` and ```override or use the implemented methods``` in abstract class.
 
-
-- A class is uninstantiable if the class is declared abstract. If a method has been declared as abstract, it cannot provide an implementation (i.e. it cannot have a method body ) and the class containing that method must be declared abstract). 
-- ```If any method in a class is declared abstract, then the whole class must be declared abstract```. 
-- An class can still be made abstract even if it has no abstract method(s).
-- Return types must be the same when overriding an method (same name && same parameter == same return type)
+- If a method has been declared as abstract, it cannot provide an implementation (i.e. it cannot have a method body ) and ```the class containing that method must be declared abstract```). 
+- An class can still be made abstract ```even if it has no abstract method(s)```.
 - The class that will be extended ```can have has some methods (with implementation, which can be overriden)``` and abstract methods (without a body) which define a method that the inheriting childclass should implement.
+- ```Return types must be the same when overriding an method (same name && same parameter == same return type)```
 
 ## Casting
-- Casting from a subclass to a superclass is called upcasting. Typically, the upcasting is implicitly performed by the compiler.
-! You can assign a subclass object reference to superclass reference without a cast but to assign a super class object reference to a subclass (or interface) reference you need an explicit cast.
-> ``` Bear Extends Animal```. Bear is-a Animal. So it can be assigned to Animal animal.  The other way around: ``` Bear b = (B)animal ```. A animal is not necessarily a bear so it needs casting.
+Casting is the process of making a variable behave as a variable of another type. If a class shares an ```IS-A``` or ```inheritance relationship``` with another class or interface, their variables can be cast to each other’s type. Some of the casts will not show any error at compile time, but will fail at run time. 
 
+Here are some basic rules to keep in mind when casting variables:
+- Casting an object from a sub class to a super class doesn’t require an explicit cast (this is called upcasting but is implicitly done by the compiler (most of the time))
+- Casting an object from a super class to a sub class requires an explicit cast.
+- The compiler will not allow casts to unrelated types.
+
+Even when the code compiles without issue, an exception may be thrown at run time if the object being cast is not actually an instance of that class. This will result in the run time exception ClassCastException.
+
+> You can assign a subclass object reference to superclass ```(Animal animal = bear //of class Bear```) reference without a cast but to assign a super class object reference to a subclass (or interface) reference you need an explicit cast. 
+
+>``` Bear Extends Animal```. Bear IS-A Animal. So it can be assigned to Animal animal.  The other way around: ``` Bear b = (B)animal ```. A animal is not necessarily a bear so it needs casting.
+
+### Data Type Casting
+- A char value can ALWAYS be assigned to an int variable, since the int type is wider than the char type. So casting ```char c``` to ```int i``` is valid.
+- Sometimes we need to fit a value that is larger than the type used in the variable declaration. This may result in information loss since some bytes will have to be discarded.
+In this case, we have to explicitly express that we are aware of the situation and we agree with that, by using a cast:
+```
+int myInt = (int) myDouble;
+byte myByte = (byte) myInt;
+```
 
 # Interfaces
 Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
@@ -48,22 +65,15 @@ Interface in java is contract of class. This contract has to obeyed by class whi
 - By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
 - When you mark a method in an interface as default, you are basically trying to provide a default implementation of that method so that any class that implements this interface doesn't necessarily have to provide its own implementation. Thus, a default method without a method body doesn't make sense.
 
-## Signature
-- All interface methods have to be public (they need to be visible because they need to be overriden).
-- The method body is not defined, just the name and the parameters.
+## Interface method signatures
+- All interface methods have to be ```public```. They need to be visible because ```they need to be overriden```.
+- The method body is not defined, just the name and the parameters. ```public void doIt();```
 - An interface can have a static method but the method must have a body in that case.
 
 >Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface.
 
-# Data Type Casting
-- A char value can ALWAYS be assigned to an int variable, since the int type is wider than the char type. So casting ```char c``` to ```int i``` is valid.
-- Sometimes we need to fit a value that is larger than the type used in the variable declaration. This may result in information loss since some bytes will have to be discarded.
-In this case, we have to explicitly express that we are aware of the situation and we agree with that, by using a cast:
-```
-int myInt = (int) myDouble;
-byte myByte = (byte) myInt;
-```
-- If Class B(ear) extends Class A(nimal), the Bear can always be A (without casting). An Animal is not always a bear so it needs casting ```Bear b = (Bear)a;```
+
+
 
 
 # Methods & Constructors
@@ -251,16 +261,9 @@ public class TestClass {
 // At run time, f points to an object of class Eagle. Now, Eagle extends Bird so f instanceof Bird returns true. e points to an object of class Eagle. Eagle extends Bird, which in turn implements Flyer. So an Eagle is a Flyer. Therefore, e instanceof Flyer will also return true.  b points to an object of class Bat, which does not extend from Bird. Therefore, b instanceof Flyer returns false.        
 ```
 
-
-
-
-
 ## Java Data types
 ```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
 Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
-
-
-
 
 - Boolean class has two static helper methods for creating booleans - parseBoolean and valueOf. Boolean.parseBoolean(String ) method returns a primitive boolean and not a Boolean object (Note - Same is with the case with other parseXXX methods such as Integer.parseInt - they return primitives and not objects). 
 The boolean returned represents the value true if the string argument is not null and is equal, ignoring case, to the string "true".  Boolean.valueOf(String ) and its overloaded Boolean.valueOf(boolean ) version, on the other hand, work similarly but return a reference to either Boolean.TRUE or Boolean.FALSE wrapper objects. 
@@ -270,23 +273,14 @@ If both are Boolean wrappers, then their references are compared just like in th
 
 Some examples of how to create a Boolean-objects (wrapper & primitive); 
 
-```
+ ```
 Boolean.valueOf(true); // true 
 Boolean.valueOf("trUE"); // true
 Boolean.TRUE // true
 
 Boolean.parseboolean("true"); // will create a primitive-boolean. Not an wrapper-boolean.
-<<<<<<< HEAD
-Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE"
-```
-=======
 Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE" 
 ```
- 
- 
-
- 
->>>>>>> message
 
 ## Assignment
 ```
@@ -297,7 +291,7 @@ int expr3 = 3 + 5 * (9 - 7);  13
 int expr4 = (3 + 5) * 9 - 7;  //65
 System.out.println(100/9.9); //Since one of the operands (9.9) is a double, it wil perform a real division and will print 10.1010101010101
 ```
-
+- If evaluation of the left-hand operand of a binary operator completes abruptly, no part of the right-hand operand appears to have been evaluated.
 ## Switches
 Here are the rules for a switch statement:
 1. Only ```String```, ```byte```, ```char```, ```short```, ```int```, (and their wrapper classes ```Byte```, ```Character```, ```Short```, and ```Integer```), and ```enums``` can be used as types of a switch variable. (String is allowed only since Java 7). 
