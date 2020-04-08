@@ -8,6 +8,8 @@ Some notes I made when preparing for the 1Z0‑808 (OCA8) Exam.
 - If you declare a field to be final, it must be explicitly initialized by the time the creation of an object of the class is complete. So you can either initialize it immediately. You can't change its value once it is set.
 - Protected is not a valid way to encapsulate a field because any class in the package can access the field.
 - ```private``` -> ```no modifier```-> ```protected``` -> ```public``` (no modifier is default and means the method will be accessible only to all the classes in the same package. (i.e. not even to the subclass if the subclass is in a different package.))
+- ```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
+Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
 
 # Inheritance
 
@@ -262,16 +264,23 @@ public class TestClass {
 ```
 
 ## Java Data types
-```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
-Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
+Data types are divided into two groups:
 
-- Boolean class has two static helper methods for creating booleans - parseBoolean and valueOf. Boolean.parseBoolean(String ) method returns a primitive boolean and not a Boolean object (Note - Same is with the case with other parseXXX methods such as Integer.parseInt - they return primitives and not objects). 
-The boolean returned represents the value true if the string argument is not null and is equal, ignoring case, to the string "true".  Boolean.valueOf(String ) and its overloaded Boolean.valueOf(boolean ) version, on the other hand, work similarly but return a reference to either Boolean.TRUE or Boolean.FALSE wrapper objects. 
-Observe that they dont create a new Boolean object but just return the static constants TRUE or FALSE defined in Boolean class.  3. When you use the equality operator ( == ) with booleans, if exactly one of the operands is a Boolean wrapper, it is first unboxed into a boolean primitive and then the two are compared (JLS 15.21.2). 
-If both are Boolean wrappers, then their references are compared just like in the case of other objects. ```Thus, new Boolean("true") == new Boolean("true")``` is false, but ```new Boolean("true") == Boolean.parseBoolean("true")``` is true.
+> Primitive data types - includes byte, short, int, long, float, double, boolean and char
+
+> Non-primitive data types - such as String, Arrays and Classes (you will learn more about these in a later chapter)
+
+### Parsing Java Data types
+
+Boolean class has two static helper methods for creating booleans - ```parseBoolean``` and ```valueOf```. Boolean.parseBoolean(String ) method returns a primitive boolean and not a Boolean object (Note - Same is with the case with other parseXXX methods such as Integer.parseInt - they return primitives and not objects) 
+
+The boolean returned represents the value true if the string argument is not null and is equal, ignoring case, to the string "true".  ```Boolean.valueOf("String")``` and its ```overloaded Boolean.valueOf(boolean)``` version, on the other hand, work similarly but return a reference to either Boolean.TRUE or Boolean.FALSE wrapper objects. 
+Observe that they dont create a new Boolean object but just return the static constants TRUE or FALSE defined in Boolean class.  3. When you use the equality operator ( == ) with booleans, if exactly one of the operands is a Boolean wrapper, it is first unboxed into a boolean primitive and then the two are compared 
+
+If both are Boolean wrappers, then their references are compared just like in the case of other objects. 
+>```new Boolean("true") == new Boolean("true")``` is false, but ```new Boolean("true") == Boolean.parseBoolean("true")``` is true.
+
 -The equals methods of all wrapper classes first check if the two object are of same class or not.
-
-Some examples of how to create a Boolean-objects (wrapper & primitive); 
 
  ```
 Boolean.valueOf(true); // true 
@@ -283,6 +292,7 @@ Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't 
 ```
 
 ## Assignment
+These operators are used to assign values to a variable. The left side operand of the assignment operator is a variable and the right side operand of the assignment operator is a value. The value on the right side must be of the same data-type of the operand on the left side otherwise the compiler will raise an error. This means that the assignment operators have right to left associativity, i.e value given on the right-hand side of the operator is assigned to the variable on the left and therefore right-hand side value must be declared before using it or should be a constant.
 ```
 boolean b1 = false; boolean b2  = false; if (b2 = b1 != b2){ //true
 int expr1 = 3 + 5 * 9 - 7;  //41       
@@ -292,7 +302,11 @@ int expr4 = (3 + 5) * 9 - 7;  //65
 System.out.println(100/9.9); //Since one of the operands (9.9) is a double, it wil perform a real division and will print 10.1010101010101
 ```
 - If evaluation of the left-hand operand of a binary operator completes abruptly, no part of the right-hand operand appears to have been evaluated.
+
 ## Switches
+
+The switch statement is a multi-way branch statement. It provides an easy way to dispatch execution to different parts of code based on the value of the expression. Basically, the expression can be byte, short, char, and int primitive data types. Beginning with JDK7, it also works with enumerated types ( Enums in java), the String class and Wrapper classes.
+
 Here are the rules for a switch statement:
 1. Only ```String```, ```byte```, ```char```, ```short```, ```int```, (and their wrapper classes ```Byte```, ```Character```, ```Short```, and ```Integer```), and ```enums``` can be used as types of a switch variable. (String is allowed only since Java 7). 
 2. The case constants must be assignable to the switch variable. For example, if your switch variable is of class String, your case labels must use Strings as well.
@@ -304,6 +318,14 @@ Here are the rules for a switch statement:
 
 
 ## Exceptions
+An exception is an unwanted or unexpected event, which occurs during the execution of a program i.e at run time, that disrupts the normal flow of the program’s instructions.
+
+
+### Error vs Exception
+Error: An Error indicates serious problem that a reasonable application should not try to catch.
+Exception: Exception indicates conditions that a reasonable application might try to catch.
+
+
 - Any exception thrown in a **static block** is wrapped into **ExceptionInInitializerError**.
 - Exceptions are always some subclass of **java.lang.Exception**        
 - Catch blocks are **not required**
