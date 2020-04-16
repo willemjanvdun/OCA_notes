@@ -10,6 +10,15 @@ Some notes I made when preparing for the 1Z0‑808 (OCA8) Exam.
 - ```private``` -> ```no modifier```-> ```protected``` -> ```public``` (no modifier is default and means the method will be accessible only to all the classes in the same package. (i.e. not even to the subclass if the subclass is in a different package.))
 - ```TestClass t1, t2, t3, t4; t1 = t2 = new TestClass(); t3 = new TestClass();```
 Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
+- Each object of a class has its own copy of each non-static member variable.
+
+
+>>>>>>>>>Vragen:
+
+Can an object always be cast to a String? 
+```String s = (String) someObject;  // Nope```
+
+What will hapen if you throw ```   RuntimeException re = null; // It will throw a nullpointer exception when printing this (since the referenced object == null) ```
 
 # Inheritance
 
@@ -85,7 +94,8 @@ Interface in java is contract of class. This contract has to obeyed by class whi
 - You may apply ```public```, ```private```, and ```protected``` modifiers to a constructor. But not ```static```, ```final```, ```synchronized```, ```native``` and ```abstract```. It can ```also be package private i.e. without any access modifier```.
 - ```protected``` is less restrictive than package access. So a method(or field) declared as protected ```will be accessible from a subclass even if the subclass is not in the same package```.
 - You cannot have two methods with the same signature (name and parameter types) in one class. Also, even if you put one sayHello() method in other class which is a subclass of this class, it won't compile because you cannot override/hide a static method with a non static method and vice versa.
-
+- An invalid constructor will cause an ```runtime-exception```.
+- You can ```never``` use a ```this```-reference in a static method.
 
 ## Overriding 
 - Trying to override a static method with a non-static method (and vice-versa) in a class will result in a compilation error.
@@ -95,6 +105,8 @@ Interface in java is contract of class. This contract has to obeyed by class whi
 - If you make a method static, that method cannot be overridden because the concept of overriding (and polymorphism) only applies to instance method.
 The overriding method can throw a subset of the exception or subclass of the exceptions thrown by the overridden class. Having no throws clause is also valid since an empty set is a valid subset. 
 - An overriding method can be made less restrictive than the overridden method. (kinda like the other way around with exceptions, the must be narrower)
+
+> Always remember: Instance methods are overridden and variables (and static methods) are hidden. Which instance method is invoked depends on the class of the actual object, while which field (and static method) is accessed depends on the class of the variable.
 
 ```
 class Automobile{
@@ -120,7 +132,7 @@ class Truck extends Automobile {
 ```
 
 ## Overloading & widening vs. boxing/unboxing
-- Overloading of a method occurs when the name of more than one methods is exactly same but the parameter lists are different.
+- Overloading of a method occurs when the name of more than one methods is exactly same but the parameter lists are different (or in a different order).
 - A method is said to be overloaded when the other method's name is same and parameters ( either the number or their order) are different.
 - The call to ```printSum(1, 2)``` will be bound to printSum(```int, int```) because 1 and 2 are ints, which are exact match to int, int.  Note that if printSum(```int, int```) method were not there in the code, printSum(```double, double```) would have been invoked instead of printSum(```Integer, Integer```) because ```widening is preferred over boxing/unboxing```.
 - The call to printSum(```1.0, 2.0```) will be bound to printSum(```double, double```) because 1.0 and 2.0 are double, which are exact match to double, double.  Note that if you call ```printSum(1, 2)``` , printSum(```float, float```) would have been invoked instead of printSum(```double, double```) because a float is closer than a double to an int. 
@@ -159,15 +171,22 @@ Predicate<Employee> p = new Predicate<Employee>(){   
 
 
 ## Loops
-- The ```break``` statement immediately jumps ```to the end (and out)``` of the appropriate compound statement.
-- The ```continue``` statement immediately jumps ```to the next iteration``` (if any) of the appropriate loop.
+Play around: https://www.codecademy.com/courses/learn-java/lessons/learn-java-loops/exercises/loops-review
 
+### While
+while loops: These are useful to repeat a code block an unknown number of times until some condition is met.
 
-- ```while (false) { x=3; }``` is a compile-time error because the statement x=3; is not reachable;
-= ```if(false){ x=3; }``` this is not a a compile-time error because this is allowed in an ```if-statement```
-
+Like an if statement, the code inside the while loop will only run if the ```condition is true```. However, a ```while``` loop will ```continue running``` the code over and over until the condition evaluates to ```false```.
 ```
+while (silliness > 10) {
 
+  // code to run
+
+}
+```
+### For Loops
+for loops: These are ideal for when you are incrementing or decrementing with a counter variable.
+```
 // Some examples of 'good' syntax regarding some loops:
 
 for (i=0 ;       ; i++)                                 // Good
@@ -177,6 +196,20 @@ int i, j; for (j=10; i<j; j--) { i += 2; };             // Wrong
 int i=10; for ( ; i>0 ; i--) { };                       // Good
 for (int i=0, j=10; i<j; i++, --j) {;};                 // Good
 ```
+
+
+### For Each
+For-each loops: These make it simple to do something with each item in a list.
+
+## Moment of incrementing in Loops
+- The ```break``` statement immediately jumps ```to the end (and out)``` of the appropriate compound statement.
+- The ```continue``` statement immediately jumps ```to the next iteration``` (if any) of the appropriate loop.
+
+
+- ```while (false) { x=3; }``` is a compile-time error because the statement x=3; is not reachable;
+= ```if(false){ x=3; }``` this is not a a compile-time error because this is allowed in an ```if-statement```
+
+
 
 ```
 // Another example of a loop that will not compile (due to unreachable code):
@@ -226,6 +259,7 @@ The equals method of a primite wrapper class has the following specifications:
 - reflexive => a.equals(a) return true.  For example, the following code for the equals method on Integer explains how it works: 
 
 ## Instanceof
+>Eeasywin: For any non-null reference o1, the expression (o1 instanceof Object) will always yield true.
 ```
 public boolean equals(Object obj) {    
     if (obj instanceof Integer) {        
@@ -234,7 +268,7 @@ public boolean equals(Object obj) {    
         return false; 
 } 
 ```
-- The left operand of instanceof MUST be a reference variable and not a primitive.
+- The left operand of instanceof MUST be a reference variable and not a primitive. ```This means that when an reference that extends nothing will be used in an instanceOf, the code will fail to compile!```
 - D extends C, which extends B, which extends A. This means, D is-a C, C is-a B, and B is-a A. Therefore, D is-a A. Hence, d instanceof A will return true.
 - The expression (o instanceof B) will return true if the object referred to by o is of type B or a subtype of B. (subtype == extending B of some class that extends B or a class that extends a class that extends a class that extends B ;))
 ```
@@ -314,7 +348,7 @@ Here are the rules for a switch statement:
 4. All case labels should be COMPILE TIME CONSTANTS.
 5. No two of the case constant expressions associated with a switch statement may have the same value.
 6. At most one default label may be associated with the same switch statement.
-7. The type of the case labels must be consistent with the type of the switch condition
+7. The type of the case labels must be consistent with the type of the switch condition.
 
 
 ## Exceptions
@@ -324,6 +358,7 @@ An exception is an unwanted or unexpected event, which occurs during the executi
 ### Error vs Exception
 Error: An Error indicates serious problem that a reasonable application should not try to catch.
 Exception: Exception indicates conditions that a reasonable application might try to catch.
+
 
 
 - Any exception thrown in a **static block** is wrapped into **ExceptionInInitializerError**.
