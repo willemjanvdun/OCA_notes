@@ -184,8 +184,14 @@ while (silliness > 10) {
 
 }
 ```
+> The condition expression in a while header is required.
+
+### Do while
+The difference between do-while and while is that do-while evaluates its expression at the bottom of the loop instead of the top. Therefore, the statements within the do block are always executed at least once.
+
+
 ### For Loops
-for loops: These are ideal for when you are incrementing or decrementing with a counter variable.
+for loops: These are ideal for when you are incrementing or decrementing with a counter-variable.
 ```
 // Some examples of 'good' syntax regarding some loops:
 
@@ -196,20 +202,22 @@ int i, j; for (j=10; i<j; j--) { i += 2; };             // Wrong
 int i=10; for ( ; i>0 ; i--) { };                       // Good
 for (int i=0, j=10; i<j; i++, --j) {;};                 // Good
 ```
+> When the expression/condition part is empty, it is interpreted as true.
 
+### Enhanced for loops
+- It can iterate over an array or a Collection but not a Map.
+- Using an enhanced for loop prevents the code from going into an infinite loop.
+- You cannot find out the number of the current iteration while iterating.
 
 ### For Each
 For-each loops: These make it simple to do something with each item in a list.
 
-## Moment of incrementing in Loops
+### Break & Continue
 - The ```break``` statement immediately jumps ```to the end (and out)``` of the appropriate compound statement.
 - The ```continue``` statement immediately jumps ```to the next iteration``` (if any) of the appropriate loop.
 
-
 - ```while (false) { x=3; }``` is a compile-time error because the statement x=3; is not reachable;
 = ```if(false){ x=3; }``` this is not a a compile-time error because this is allowed in an ```if-statement```
-
-
 
 ```
 // Another example of a loop that will not compile (due to unreachable code):
@@ -219,7 +227,9 @@ if(index == 3){                 
     } else {                  
         continue;             
     }
+    // This code will not be reached
 ``` 
+### Moment of incrementing in Loops
 ```
 // Example of pre- and post increments: 
 
