@@ -1,6 +1,20 @@
 # Notes OCA
 Some notes I made when preparing for the 1Z0‑808 (OCA8) Exam.
 
+>>>>>>>>>Vragen:
+
+Can an object always be cast to a String? 
+```String s = (String) someObject;  // Nope```
+
+What will hapen if you throw ```   RuntimeException re = null; // It will throw a nullpointer exception when printing this (since the referenced object == null) ```
+
+
+- Wat is de standaard print van een exception? (als je het hele object print?)
+- Overload: change parameters(order) en eventueel return type
+- Oefenen met parse en equalsmethoe enzo (of === of ==)
+- Oefenen met continue en break en labels!
+- Static blocks, heel raar > ``` static {INTERVAL = 10}``` ? dafuq
+
 # Java Basics
 - Which packages are automatically imported? ```java.lang``` && ```The package with no name ``` if no package is defined.
 - First, static statements/blocks are called IN THE ORDER they are defined. Next, instance initializer statements/blocks are called IN THE ORDER they are defined. Finally, the constructor is called.
@@ -13,12 +27,27 @@ Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 referenc
 - Each object of a class has its own copy of each non-static member variable.
 
 
->>>>>>>>>Vragen:
 
-Can an object always be cast to a String? 
-```String s = (String) someObject;  // Nope```
+```
 
-What will hapen if you throw ```   RuntimeException re = null; // It will throw a nullpointer exception when printing this (since the referenced object == null) ```
+// What letters, and in what order, will be printed when the following program is compiled and run?
+
+public class FinallyTest{
+   public static void main(String args[]) throws Exception{
+       try{
+          m1();
+          System.out.println("A");
+       }
+       finally{
+          System.out.println("B");
+       }
+       System.out.println("C");
+   }
+   public static void m1() throws Exception { throw new Exception(); }
+}
+
+// It will print B and throw Exception!
+```
 
 # Inheritance
 
@@ -76,6 +105,16 @@ Interface in java is contract of class. This contract has to obeyed by class whi
 - By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
 - When you mark a method in an interface as default, you are basically trying to provide a default implementation of that method so that any class that implements this interface doesn't necessarily have to provide its own implementation. Thus, a default method without a method body doesn't make sense.
 
+```
+public interface ITestInterface {
+        default void compute1();                        // Extension method should have body
+        public void compute2();                         // GOOD
+        static void compute3(){ sout("Hi");}            // GOOD
+        static void compute4();                         // Static methods in interfaces should have a body
+        default static void compute5 (){Sout("Hi");}    //Illegal combination of modifiers: 'static' and 'default
+}
+```
+
 ## Interface method signatures
 - All interface methods have to be ```public```. They need to be visible because ```they need to be overriden```.
 - The method body is not defined, just the name and the parameters. ```public void doIt();```
@@ -106,7 +145,39 @@ Interface in java is contract of class. This contract has to obeyed by class whi
 The overriding method can throw a subset of the exception or subclass of the exceptions thrown by the overridden class. Having no throws clause is also valid since an empty set is a valid subset. 
 - An overriding method can be made less restrictive than the overridden method. (kinda like the other way around with exceptions, the must be narrower)
 
-> Always remember: Instance methods are overridden and variables (and static methods) are hidden. Which instance method is invoked depends on the class of the actual object, while which field (and static method) is accessed depends on the class of the variable.
+> Always remember: Instance methods are overridden and variables (and static methods) are hidden. Which instance method is invoked depends on the class of the actual object, while which field (and static method) is accessed depends on the class of the variable. 
+```
+class Animal {
+    public int h = 4;
+
+    public int getH() {
+        System.out.println("id0: Animal " + h);
+        return h;
+    }
+}
+
+ class Bear extends Animal {
+    public int h = 44;
+
+    public static void main(String[] args) {
+        Animal b = new Bear();
+        System.out.println("id1: " + b.h + " " + b.getH());   // first it will evaluate the method and return Bear 44, than it will return the Animal.h which is 4 + the result of the method b.GetH() which is 44.
+        Bear bb = (Bear) b;
+        System.out.println("id2: " + bb.h + " " + bb.getH()); // first it will evaluate the method and return Bear 44, than it will return Bear.h which is 44 + the result of the method b.GetH() which is 44
+    }
+
+    public int getH() {
+        System.out.println("id3: Bear " + h);
+        return h;
+    }
+}
+
+// Result:
+id3: Bear 44
+id1: 4 44
+id3: Bear 44
+id2: 44 44
+```
 
 ```
 class Automobile{
@@ -136,6 +207,23 @@ class Truck extends Automobile {
 - A method is said to be overloaded when the other method's name is same and parameters ( either the number or their order) are different.
 - The call to ```printSum(1, 2)``` will be bound to printSum(```int, int```) because 1 and 2 are ints, which are exact match to int, int.  Note that if printSum(```int, int```) method were not there in the code, printSum(```double, double```) would have been invoked instead of printSum(```Integer, Integer```) because ```widening is preferred over boxing/unboxing```.
 - The call to printSum(```1.0, 2.0```) will be bound to printSum(```double, double```) because 1.0 and 2.0 are double, which are exact match to double, double.  Note that if you call ```printSum(1, 2)``` , printSum(```float, float```) would have been invoked instead of printSum(```double, double```) because a float is closer than a double to an int. 
+
+```
+class Base{
+   public short getValue(){ return 1; } //1
+}
+class Base2 extends Base{
+   public byte getValue(){ return 2; } //2
+}
+public class TestClass{
+   public static void main(String[] args){
+      Base b = new Base2();
+      System.out.println(b.getValue()); //3
+   }
+} 
+// Compile time error at 2 (because::: )
+```
+
 
 ## Lambdas
 - It is an interface that has only one abstract method (among other non-abstract methods) with the signature - ```public boolean test(T t)```;
@@ -394,6 +482,8 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 - A method that throws a 'checked' exception i.e. an exception that is not a subclass of Error or RuntimeException, either must declare it in throws clause or put the code that throws the exception in a try/catch block.
 - Once the exception is caught the rest of the catch blocks at the same level (that is the ones associated with the same try block) are ignored
 - ```a[thisWillThrowAnException()][i = 1]++;``` < If evaluation of a dimension expression completes abruptly, no part of any dimension expression to its right will appear to have been evaluated. [i = 1 will not be executed]
+
+
 
 ## Imports
 - A package statement can never have a .*
