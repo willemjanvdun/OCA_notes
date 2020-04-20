@@ -26,8 +26,6 @@ What will hapen if you throw ```   RuntimeException re = null; // It will throw 
 Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
 - Each object of a class has its own copy of each non-static member variable.
 
-
-
 ```
 
 // What letters, and in what order, will be printed when the following program is compiled and run?
@@ -123,7 +121,18 @@ public interface ITestInterface {
 >Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface.
 
 
-
+# Arrays
+```
+public class TestClass{
+   public static void main(String args[] ){
+      int i = 0 ;
+      int[] iA = {10, 20} ;
+      iA[i] = i = 30 ;
+      System.out.println(""+ iA[ 0 ] + " " + iA[ 1 ] + "  "+i) ;
+    }
+}
+// Result 30 20  30 (it will first try to find the location in the array before it continues to evaluate the value that will be assigned)
+```
 
 
 # Methods & Constructors
@@ -402,6 +411,15 @@ Data types are divided into two groups:
 
 > Non-primitive data types - such as String, Arrays and Classes (you will learn more about these in a later chapter)
 
+### Float
+```
+    float f1 = 1.0;     //DOES NOT COMPILE
+    float f2 = 43e1;    //DOES NOT COMPILE
+    float f3 = -1;
+    float f4 = 0x0123;
+    float f5 = 4;
+```
+
 ### Parsing Java Data types
 
 Boolean class has two static helper methods for creating booleans - ```parseBoolean``` and ```valueOf```. Boolean.parseBoolean(String ) method returns a primitive boolean and not a Boolean object (Note - Same is with the case with other parseXXX methods such as Integer.parseInt - they return primitives and not objects) 
@@ -536,6 +554,7 @@ When you use exception.printStackTrace(), a complete chain of the names of the m
 ## Some random examples of cruelty :angry:
 Keep in mind to always check the number of answer that should be provided.... ;)
 
+- I've seen double else blocks (without else if (condition)..)
 - Note that both equals() and hashCode() methods can be overridden by the programmer so you can't say anything about what they will return without looking at the code.
 - A class can have a method named Main. Although, since it is not same as main, it will not be considered the standard main method that the JVM can invoke when the program is executed.
 - ```LocalDate ld2 = ld.plus(Period.of(0, 1, 1));```
