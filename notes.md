@@ -3,6 +3,19 @@ Some notes I made when preparing for the 1Z0‑808 (OCA8) Exam.
 
 >>>>>>>>>Vragen:
 
+
+
+
+class Test{
+   public static void main(String[] args){
+      int i = 4;
+      int ia[][][] = new int[i][i = 3][i];
+      System.out.println( ia.length + ", " + ia[0].length+", "+ ia[0][0].length);
+   }
+}
+
+
+
 Can an object always be cast to a String? 
 ```String s = (String) someObject;  // Nope```
 
@@ -16,6 +29,7 @@ What will hapen if you throw ```   RuntimeException re = null; // It will throw 
 - Static blocks, heel raar > ``` static {INTERVAL = 10}``` ? dafuq
 
 # Java Basics
+- The order of keywords for a static import must be ```import static ...```.
 - Which packages are automatically imported? ```java.lang``` && ```The package with no name ``` if no package is defined.
 - First, static statements/blocks are called IN THE ORDER they are defined. Next, instance initializer statements/blocks are called IN THE ORDER they are defined. Finally, the constructor is called.
 - You cannot access a private member of a superclass
@@ -26,6 +40,7 @@ What will hapen if you throw ```   RuntimeException re = null; // It will throw 
 Answer >> two ```new```'s instances => two objects. t1, t2, t3, t4 => 4 references.
 - Each object of a class has its own copy of each non-static member variable.
 
+>First, static statements/blocks are called IN THE ORDER they are defined. Next, instance initializer statements/blocks are called IN THE ORDER they are defined. Finally, the constructor is called. So static > instance > constructor.
 ```
 
 // What letters, and in what order, will be printed when the following program is compiled and run?
@@ -95,55 +110,6 @@ In this case, we have to explicitly express that we are aware of the situation a
 int myInt = (int) myDouble;
 byte myByte = (byte) myInt;
 ```
-
-# Interfaces
-Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
-- Interfaces are implemented like so: ```public class SomeWrestler implements IWrestler ```
-- Interface is group of related methods that should have been implemented by the class which claims that i’m provided common behavior of that interface.
-- By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
-- When you mark a method in an interface as default, you are basically trying to provide a default implementation of that method so that any class that implements this interface doesn't necessarily have to provide its own implementation. Thus, a default method without a method body doesn't make sense.
-
-```
-public interface ITestInterface {
-        default void compute1();                        // Extension method should have body
-        public void compute2();                         // GOOD
-        static void compute3(){ sout("Hi");}            // GOOD
-        static void compute4();                         // Static methods in interfaces should have a body
-        default static void compute5 (){Sout("Hi");}    //Illegal combination of modifiers: 'static' and 'default
-}
-```
-
-## Interface method signatures
-- All interface methods have to be ```public```. They need to be visible because ```they need to be overriden```.
-- The method body is not defined, just the name and the parameters. ```public void doIt();```
-- An interface can have a static method but the method must have a body in that case.
-
->Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface.
-
-
-# Arrays
-```
-public class TestClass{
-   public static void main(String args[] ){
-      int i = 0 ;
-      int[] iA = {10, 20} ;
-      iA[i] = i = 30 ;
-      System.out.println(""+ iA[ 0 ] + " " + iA[ 1 ] + "  "+i) ;
-    }
-}
-// Result 30 20  30 (it will first try to find the location in the array before it continues to evaluate the value that will be assigned)
-```
-
-
-# Methods & Constructors
-
-## Basics
-- Constructors cannot have empty bodyies (i.e. they cannot be abstract).
-- You may apply ```public```, ```private```, and ```protected``` modifiers to a constructor. But not ```static```, ```final```, ```synchronized```, ```native``` and ```abstract```. It can ```also be package private i.e. without any access modifier```.
-- ```protected``` is less restrictive than package access. So a method(or field) declared as protected ```will be accessible from a subclass even if the subclass is not in the same package```.
-- You cannot have two methods with the same signature (name and parameter types) in one class. Also, even if you put one sayHello() method in other class which is a subclass of this class, it won't compile because you cannot override/hide a static method with a non static method and vice versa.
-- An invalid constructor will cause an ```runtime-exception```.
-- You can ```never``` use a ```this```-reference in a static method.
 
 ## Overriding 
 - Trying to override a static method with a non-static method (and vice-versa) in a class will result in a compilation error.
@@ -232,6 +198,55 @@ public class TestClass{
 } 
 // Compile time error at 2 (because::: )
 ```
+
+# Interfaces
+Interface in java is contract of class. This contract has to obeyed by class which implements this interface.
+- Interfaces are implemented like so: ```public class SomeWrestler implements IWrestler ```
+- Interface is group of related methods that should have been implemented by the class which claims that i’m provided common behavior of that interface.
+- By using interface implementation developer is always sure about the class implemented all methods of interface so he/she can safely call all methods defined in interface.
+- When you mark a method in an interface as default, you are basically trying to provide a default implementation of that method so that any class that implements this interface doesn't necessarily have to provide its own implementation. Thus, a default method without a method body doesn't make sense.
+
+```
+public interface ITestInterface {
+        default void compute1();                        // Extension method should have body
+        public void compute2();                         // GOOD
+        static void compute3(){ sout("Hi");}            // GOOD
+        static void compute4();                         // Static methods in interfaces should have a body
+        default static void compute5 (){Sout("Hi");}    //Illegal combination of modifiers: 'static' and 'default
+}
+```
+
+## Interface method signatures
+- All interface methods have to be ```public```. They need to be visible because ```they need to be overriden```.
+- The method body is not defined, just the name and the parameters. ```public void doIt();```
+- An interface can have a static method but the method must have a body in that case.
+
+>Fields defined in an interface are ALWAYS considered as public, static, and final. Even if you don't explicitly define them as such. In fact, you cannot even declare a field to be private or protected in an interface.
+
+
+# Arrays
+```
+public class TestClass{
+   public static void main(String args[] ){
+      int i = 0 ;
+      int[] iA = {10, 20} ;
+      iA[i] = i = 30 ;
+      System.out.println(""+ iA[ 0 ] + " " + iA[ 1 ] + "  "+i) ;
+    }
+}
+// Result 30 20  30 (it will first try to find the location in the array before it continues to evaluate the value that will be assigned)
+```
+
+
+# Methods & Constructors
+
+## Basics
+- Constructors cannot have empty bodyies (i.e. they cannot be abstract).
+- You may apply ```public```, ```private```, and ```protected``` modifiers to a constructor. But not ```static```, ```final```, ```synchronized```, ```native``` and ```abstract```. It can ```also be package private i.e. without any access modifier```.
+- ```protected``` is less restrictive than package access. So a method(or field) declared as protected ```will be accessible from a subclass even if the subclass is not in the same package```.
+- You cannot have two methods with the same signature (name and parameter types) in one class. Also, even if you put one sayHello() method in other class which is a subclass of this class, it won't compile because you cannot override/hide a static method with a non static method and vice versa.
+- An invalid constructor will cause an ```runtime-exception```.
+- You can ```never``` use a ```this```-reference in a static method.
 
 
 ## Lambdas
@@ -430,7 +445,9 @@ Observe that they dont create a new Boolean object but just return the static co
 If both are Boolean wrappers, then their references are compared just like in the case of other objects. 
 >```new Boolean("true") == new Boolean("true")``` is false, but ```new Boolean("true") == Boolean.parseBoolean("true")``` is true.
 
--The equals methods of all wrapper classes first check if the two object are of same class or not.
+> Long (or any wrapper class) does not have a no-args constructor, so new Long() is invalid.
+
+> The equals methods of all wrapper classes first check if the two object are of same class or not.
 
  ```
 Boolean.valueOf(true); // true 
@@ -440,6 +457,7 @@ Boolean.TRUE // true
 Boolean.parseboolean("true"); // will create a primitive-boolean. Not an wrapper-boolean.
 Boolean.parseBoolean("value"); // this method does not like spaces, but doesn't give shit about strange capitalized letters like "trUE" 
 ```
+
 
 ## Assignment
 These operators are used to assign values to a variable. The left side operand of the assignment operator is a variable and the right side operand of the assignment operator is a value. The value on the right side must be of the same data-type of the operand on the left side otherwise the compiler will raise an error. This means that the assignment operators have right to left associativity, i.e value given on the right-hand side of the operator is assigned to the variable on the left and therefore right-hand side value must be declared before using it or should be a constant.
